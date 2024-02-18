@@ -25,12 +25,30 @@ State Cell::setState(State st) {
     return st;
 }
 
-// Método para calcular el estado siguiente de la célula
+// Método para calcular el estado siguiente de la célula Regla 110
 int Cell::nextState(const Lattice& lattice) {
-  State right = lattice.getCell(position_ + 1).getState();
-  State left = lattice.getCell(position_ - 1).getState();
-  nextState_ = static_cast<State>((state_ + right + state_ * right + left * state_ * right) % 2);
-  return 0;
+    State right = lattice.getCell(position_ + 1).getState();
+    State left = lattice.getCell(position_ - 1).getState();
+    
+    if (left == DEAD && state_ == DEAD && right == DEAD) {
+        nextState_ = DEAD;
+    } else if (left == DEAD && state_ == DEAD && right == ALIVE) {
+        nextState_ = ALIVE;
+    } else if (left == DEAD && state_ == ALIVE && right == DEAD) {
+        nextState_ = ALIVE;
+    } else if (left == DEAD && state_ == ALIVE && right == ALIVE) {
+        nextState_ = ALIVE;
+    } else if (left == ALIVE && state_ == DEAD && right == DEAD) {
+        nextState_ = DEAD;
+    } else if (left == ALIVE && state_ == DEAD && right == ALIVE) {
+        nextState_ = ALIVE;
+    } else if (left == ALIVE && state_ == ALIVE && right == DEAD) {
+        nextState_ = ALIVE;
+    } else if (left == ALIVE && state_ == ALIVE && right == ALIVE) {
+        nextState_ = DEAD;
+    }
+
+    return 0;
 }
 
 // Método para actualizar el estado de la célula

@@ -1,4 +1,4 @@
-//Practica 1 : Implementación de un autómata celular unidimensional
+//Practica 2 : Implementación de un autómata celular bidimensional
 //Autor : <Jonathan Martínez Pérez>
 //Correo : <alu0101254098@ull.edu.es>
 //Archivo main.cc
@@ -9,29 +9,17 @@
 #include "cell.h"
 #include "programparameters.h"
 
-int main(int argc, char* argv[]) {
+int main() {
   
-    ProgramParameters params(argc, argv);
+    /*ProgramParameters params(argc, argv);
 
     params.runSimulation();
 
-    std::cout << "Terminando..." << std::endl;
+    std::cout << "Terminando..." << std::endl;*/
+
+    Lattice lattice(10, 10, PERIODIC);
+
+    lattice.ShowIterations();
 
     return 0;
-}    
-    /*
-    if (params.outputbyfile()) {
-        std::string name = params.nameoutputf();
-        std::ofstream out(name);
-
-        std::streambuf *coutbuf = std::cout.rdbuf(); 
-        std::cout.rdbuf(out.rdbuf()); 
-
-        params.runSimulation(params);
-
-        std::cout.rdbuf(coutbuf);
-        out.close();
-    } else {
-        params.runSimulation(params);
-    }
-    */  
+}

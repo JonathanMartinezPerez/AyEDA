@@ -1,4 +1,4 @@
-//Practica 1 : Implementación de un autómata celular unidimensional
+//Practica 2 : Implementación de un autómata celular bidimensional
 //Autor : <Jonathan Martínez Pérez>
 //Correo : <alu0101254098@ull.edu.es>
 //Archivo programparameters.h
@@ -12,33 +12,33 @@
 
 #include "lattice.h"
 
-
 class ProgramParameters {
-public:
-    ProgramParameters(int argc, char* argv[]);
+    public:
+        ProgramParameters(int argc, char* argv[]);
 
-    void runSimulation();
-    void showHelp() const;
-    
-    bool sizeReceived() const { return size_received; }
-    int getSize() const { return size; }
-    bool borderReceived() const { return border_received; }
-    Frontier getBorder() const { return border; }
-    bool fileOption() const { return file_option; }
-    std::string getFilename() const { return filename; }
-    bool outputbyfile() const { return outputbyfile_; }
-    std::string nameoutputf() const { return outputf; } 
+        void runSimulation();
+        void showHelp() const;
+        
+        bool sizeReceived() const { return size_received; }
+        std::pair<int, int> getSize() const { return size; }
+        bool borderReceived() const { return border_received; }
+        Frontier getBorder() const { return border; }
+        bool fileOption() const { return file_option; }
+        std::string getFilename() const { return filename; }
+        bool outputByFile() const { return outputByFile_; }
+        std::string getOutputFilename() const { return outputFilename; }
 
-private:
-    bool showhelp = false;
-    bool size_received = false;
-    int size;
-    bool border_received = false;
-    Frontier border = COLD;
-    bool file_option = false;
-    std::string filename;
-    bool outputbyfile_ = false;
-    std::string outputf;
+    private:
+        bool showHelp_ = false;
+        bool size_received = false;
+        std::pair<int, int> size;
+        bool border_received = false;
+        Frontier border = COLD;
+        bool file_option = false;
+        std::string filename;
+        bool outputByFile_ = false;
+        std::string outputFilename;
 };
+
 
 

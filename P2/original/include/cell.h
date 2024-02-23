@@ -1,4 +1,4 @@
-//Practica 1 : Implementación de un autómata celular unidimensional
+//Practica 2 : Implementación de un autómata celular bidimensional
 //Autor : <Jonathan Martínez Pérez>
 //Correo : <alu0101254098@ull.edu.es>
 //Archivo cell.h
@@ -8,12 +8,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <pair>
+#include <utility>
 
 #include "lattice.h"
 
 typedef std::pair<int,int> Position;
-lasl
+
 enum State{
     DEAD,
     ALIVE,
@@ -31,14 +31,13 @@ class Cell{
         State getState() const;
         State setState(State);
 
-        int nextState(const Lattice&);
+        State nextState(const Lattice&);
         void updateState();
 
     private:
-        Position position_ = 0;
+        Position position_;
         State state_ = DEAD;
         State nextState_ = DEAD;
-
 };
 
 std::ostream& operator<<(std::ostream&, const Cell&);

@@ -1,4 +1,4 @@
-//Practica 1 : Implementación de un autómata celular unidimensional
+//Practica 2 : Implementación de un autómata celular bidimensional
 //Autor : <Jonathan Martínez Pérez>
 //Correo : <alu0101254098@ull.edu.es>
 //Archivo cell.cc
@@ -26,29 +26,49 @@ State Cell::setState(State st) {
 }
 
 // Método para calcular el estado siguiente de la célula Regla 110
-int Cell::nextState(const Lattice& lattice) {
-    State right = lattice.getCell(position_ + 1).getState();
-    State left = lattice.getCell(position_ - 1).getState();
-    
-    if (left == DEAD && state_ == DEAD && right == DEAD) {
-        nextState_ = DEAD;
-    } else if (left == DEAD && state_ == DEAD && right == ALIVE) {
-        nextState_ = ALIVE;
-    } else if (left == DEAD && state_ == ALIVE && right == DEAD) {
-        nextState_ = ALIVE;
-    } else if (left == DEAD && state_ == ALIVE && right == ALIVE) {
-        nextState_ = ALIVE;
-    } else if (left == ALIVE && state_ == DEAD && right == DEAD) {
-        nextState_ = DEAD;
-    } else if (left == ALIVE && state_ == DEAD && right == ALIVE) {
-        nextState_ = ALIVE;
-    } else if (left == ALIVE && state_ == ALIVE && right == DEAD) {
-        nextState_ = ALIVE;
-    } else if (left == ALIVE && state_ == ALIVE && right == ALIVE) {
-        nextState_ = DEAD;
+State Cell::nextState(const Lattice& lattice) {
+    int aliveNeighbors = 0;
+
+    // Coordenadas relativas de las células vecinas
+    int neighborOffsets[8][2] = {
+        {-1, -1}, {-1, 0}, {-1, 1},
+        {0, -1},           {0, 1},
+        {1, -1}, {1, 0}, {1, 1}
+    };
+
+    // Obtener las coordenadas de la célula actual
+    int x = position_.first;
+    int y = position_.second;
+
+    // Contar el número de células vivas vecinas
+    for (int i = 0; i < 8; ++i) {
+        int nx = x + neighborOffsets[i][0];
+        int ny = y + neighborOffsets[i][1];
+
+        // Verificar si la célula vecina está dentro de los límites de la cuadrícula
+        if (nx >= 0 && nx < lattice.getWidth() && ny >= 0 && ny < lattice.getHeight()) {
+            if (lattice.getCell({nx, ny}).getState() == ALIVE) {
+                ++aliveNeighbors;
+            }
+        }
     }
 
-    return 0;
+    // Aplicar las reglas del juego de la vida
+    if (state_ == ALIVE) {
+        if (aliveNeighbors == 2 || aliveNeighbors == 3) {
+            nextState_ = ALIVE;
+        } else {
+            nextState_ = DEAD;
+        }
+    } else {
+        if (aliveNeighbors == 3) {
+            nextState_ = ALIVE;
+        } else {
+            nextState_ = DEAD;
+        }
+    }
+
+    return nextState_;
 }
 
 // Método para actualizar el estado de la célula

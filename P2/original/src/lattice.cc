@@ -5,7 +5,9 @@
 
 #include "lattice.h"
 
+// Constructor de la cuadrícula con un ancho, alto y frontera
 Lattice::Lattice(const int width, const int height, const Frontier& border) {
+
     // Verificar si se necesita ajustar el tamaño de la cuadrícula debido a la frontera
     int adjusted_width = width;
     int adjusted_height = height;
@@ -19,17 +21,20 @@ Lattice::Lattice(const int width, const int height, const Frontier& border) {
     for (int i = 0; i < adjusted_height; ++i) {
         cells_[i].resize(adjusted_width);
         for (int j = 0; j < adjusted_width; ++j) {
-            cells_[i][j] = new Cell(Position(j, i), DEAD);
+            cells_[i][j] = new Cell(Position{j, i}, DEAD);
         }
     }
 
     // Preguntar al usuario qué células deben estar vivas
-    int x, y;
+    int y;
     std::cout << "Ingrese las posiciones de las células vivas (x y), y finalice con -1 -1:\n";
     while (true) {
-        std::cin >> x >> y;
-        if (x == -1 && y == -1)
+        std::string input;
+        std::cin >> input;
+        if (input == "q")
             break;
+        int x = std::stoi(input);
+        std::cin >> y;
         if (x >= 0 && x < adjusted_width && y >= 0 && y < adjusted_height)
             cells_[y][x]->setState(ALIVE); // Establecer célula viva
     }
@@ -43,24 +48,30 @@ Lattice::Lattice(const int width, const int height, const Frontier& border) {
                     if (border == COLD) {
                         // Frontera fría: todas las células de la frontera a 0
                         if (i == 0 || i == adjusted_height - 1 || j == 0 || j == adjusted_width - 1)
-                            cells_[i][j] = new Cell(Position(j, i), DEAD);
+                            cells_[i][j] = new Cell(Position{j, i}, DEAD);
                     } else if (border == HOT) {
                         if (i == 0 || i == adjusted_height - 1 || j == 0 || j == adjusted_width - 1)
-                            cells_[i][j] = new Cell(Position(j, i), ALIVE);
-                    } else if (border == PERIODIC) {
+                            cells_[i][j] = new Cell(Position{j, i}, ALIVE);
+                    }  else if (border == PERIODIC) {
                         // Frontera periódica: extremos del retículo son adyacentes
-                        int ni = (i + adjusted_height - 2) % (adjusted_height - 2);
-                        int nj = (j + adjusted_width - 2) % (adjusted_width - 2);
-                        cells_[i][j] = new Cell(Position(nj, ni), DEAD);
+                        int ni = (i == 0) ? adjusted_height - 2 : (i == adjusted_height - 1) ? 1 : i;
+                        int nj = (j == 0) ? adjusted_width - 2 : (j == adjusted_width - 1) ? 1 : j;
+                        cells_[i][j] = new Cell(Position{nj, ni}, cells_[ni][nj]->getState());
                     } else if (border == REFLECTIVE) {
-                        // Frontera reflectora
+                        // Frontera reflectante
                         int ni = i;
                         int nj = j;
+
+                        // Reflejar en el eje X
                         if (i == 0) ni = 1;
                         if (i == adjusted_height - 1) ni = adjusted_height - 2;
+
+                        // Reflejar en el eje Y
                         if (j == 0) nj = 1;
                         if (j == adjusted_width - 1) nj = adjusted_width - 2;
-                        cells_[i][j] = new Cell(Position(nj, ni), DEAD);
+
+                        // Asignar el estado de la célula adyacente al borde dentro del retículo
+                        cells_[i][j] = new Cell(Position{nj, ni}, cells_[ni][nj]->getState());
                     }
                 }
             }
@@ -100,7 +111,7 @@ Lattice::Lattice(const char* filename, const Frontier& border) {
             int x = border != NOFRONTIER ? j + 1 : j;
             int y = border != NOFRONTIER ? i + 1 : i;
 
-            if (state_char == 'X')
+            if (state_char == '1')
                 cells_[y][x] = new Cell(Position(x, y), ALIVE);
             else
                 cells_[y][x] = new Cell(Position(x, y), DEAD);
@@ -116,29 +127,36 @@ Lattice::Lattice(const char* filename, const Frontier& border) {
                     if (border == COLD) {
                         // Frontera fría: todas las células de la frontera a 0
                         if (i == 0 || i == adjusted_height - 1 || j == 0 || j == adjusted_width - 1)
-                            cells_[i][j] = new Cell(Position(j, i), DEAD);
+                            cells_[i][j] = new Cell(Position{j, i}, DEAD);
                     } else if (border == HOT) {
                         if (i == 0 || i == adjusted_height - 1 || j == 0 || j == adjusted_width - 1)
-                            cells_[i][j] = new Cell(Position(j, i), ALIVE);
-                    } else if (border == PERIODIC) {
+                            cells_[i][j] = new Cell(Position{j, i}, ALIVE);
+                    }  else if (border == PERIODIC) {
                         // Frontera periódica: extremos del retículo son adyacentes
-                        int ni = (i + adjusted_height - 2) % (adjusted_height - 2);
-                        int nj = (j + adjusted_width - 2) % (adjusted_width - 2);
-                        cells_[i][j] = new Cell(Position(nj, ni), DEAD);
+                        int ni = (i == 0) ? adjusted_height - 2 : (i == adjusted_height - 1) ? 1 : i;
+                        int nj = (j == 0) ? adjusted_width - 2 : (j == adjusted_width - 1) ? 1 : j;
+                        cells_[i][j] = new Cell(Position{nj, ni}, cells_[ni][nj]->getState());
                     } else if (border == REFLECTIVE) {
-                        // Frontera reflectora
+                        // Frontera reflectante
                         int ni = i;
                         int nj = j;
+
+                        // Reflejar en el eje X
                         if (i == 0) ni = 1;
                         if (i == adjusted_height - 1) ni = adjusted_height - 2;
+
+                        // Reflejar en el eje Y
                         if (j == 0) nj = 1;
                         if (j == adjusted_width - 1) nj = adjusted_width - 2;
-                        cells_[i][j] = new Cell(Position(nj, ni), DEAD);
+
+                        // Asignar el estado de la célula adyacente al borde dentro del retículo
+                        cells_[i][j] = new Cell(Position{nj, ni}, cells_[ni][nj]->getState());
                     }
                 }
             }
         }
     }
+    file.close();
 }
 
 // Destructor de la cuadrícula
@@ -172,7 +190,34 @@ int Lattice::getHeight() const {
 
 // Muestra el estado de la cuadrícula
 void Lattice::ShowIterations() {
-    std::cout << *this;
+    unsigned iteration = 0;
+    std::cout << "Iteracion: " << iteration++ << std::endl;
+    std::cout << "-------------" << std::endl;
+    for (auto& row : cells_) {
+        std::cout << "|";
+        for (auto& cellPtr : row)
+            std::cout << *cellPtr;
+        std::cout << "|" << std::endl;
+    }
+    std::cout << "-------------" << std::endl;
+
+    // Calcular la siguiente generación y mostrarla cada vez que se pulse intro salir con q
+    while (true) {
+        nextGeneration();
+        std::cout << "Iteracion: " << iteration++ << std::endl;
+        std::cout << "-------------" << std::endl;
+        for (auto& row : cells_) {
+            std::cout << "|";
+            for (auto& cellPtr : row)
+                std::cout << *cellPtr;
+            std::cout << "|" << std::endl;
+        }
+        if (std::cin.get() == 'q') {
+            break;
+        }
+        std::cout << "-------------" << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 // Calcula la siguiente generación de la cuadrícula
@@ -191,7 +236,38 @@ void Lattice::nextGeneration() {
     // Actualizar el estado de las células en la cuadrícula
     for (int y = 0; y < height_; ++y) {
         for (int x = 0; x < width_; ++x) {
-            cells_[y][x]->setState(nextState[y][x]); // Acceder a través de punteros
+            cells_[y][x]->updateState(); // Acceder a través de punteros
+        }
+    }
+
+    // Actualizar el estado de las células en la frontera si es reflectiva o periódica
+    if (border_ == REFLECTIVE || border_ == PERIODIC) {
+        for (int y = 0; y < height_; ++y) {
+            for (int x = 0; x < width_; ++x) {
+                if (y == 0 || y == height_ - 1 || x == 0 || x == width_ - 1) {
+                    if (border_ == REFLECTIVE) {
+                        // Frontera reflectante
+                        int ni = y;
+                        int nj = x;
+
+                        // Reflejar en el eje X
+                        if (y == 0) ni = 1;
+                        if (y == height_ - 1) ni = height_ - 2;
+
+                        // Reflejar en el eje Y
+                        if (x == 0) nj = 1;
+                        if (x == width_ - 1) nj = width_ - 2;
+
+                        // Asignar el estado de la célula adyacente al borde dentro del retículo
+                        cells_[y][x]->setState(cells_[ni][nj]->getState());
+                    } else if (border_ == PERIODIC) {
+                        // Frontera periódica: extremos del retículo son adyacentes
+                        int ni = (y == 0) ? height_ - 2 : (y == height_ - 1) ? 1 : y;
+                        int nj = (x == 0) ? width_ - 2 : (x == width_ - 1) ? 1 : x;
+                        cells_[y][x]->setState(cells_[ni][nj]->getState());
+                    }
+                }
+            }
         }
     }
 }

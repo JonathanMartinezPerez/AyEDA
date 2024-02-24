@@ -17,7 +17,9 @@ int main() {
 
     std::cout << "Terminando..." << std::endl;*/
 
-    Lattice lattice(10, 10, PERIODIC);
+    //Lattice lattice("init5x5.txt", PERIODIC);
+
+    Lattice lattice(10, 10, REFLECTIVE);
 
     lattice.ShowIterations();
 

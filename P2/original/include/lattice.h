@@ -11,6 +11,7 @@
 #include <fstream>
 #include <sstream>
 #include <utility>
+#include <limits>
 
 
 #include "cell.h"

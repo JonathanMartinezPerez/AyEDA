@@ -19,7 +19,7 @@ int main() {
 
     //Lattice lattice("init5x5.txt", PERIODIC);
 
-    Lattice lattice(10, 10, REFLECTIVE);
+    Lattice lattice(20, 10, HOT);
 
     lattice.ShowIterations();
 

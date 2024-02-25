@@ -330,6 +330,7 @@ void Lattice::nextGenerationNoFrontier() {
     this->checkRightBorder();
 }
 
+// Comprobamos si hay alguna celula viva en el borde superior
 bool Lattice::checkUpperBorder() {
     bool check = false;
     for (int i = 1; i < width_ - 1; ++i) {
@@ -343,11 +344,13 @@ bool Lattice::checkUpperBorder() {
     return check;
 }
 
+// Añadimos una fila de muertas en el borde superior
 void Lattice::extendUpperBorder() {
     this->cells_.insert(this->cells_.begin(), std::vector<Cell*>(width_, new Cell));
     this->height_++;
 }
 
+// Comprobamos si hay alguna celula viva en el borde inferior  
 bool Lattice::checkLowerBorder() {
     bool check = false;
     for (int i = 1; i < width_ - 1; ++i) {
@@ -361,11 +364,13 @@ bool Lattice::checkLowerBorder() {
     return check;
 }
 
+// Añadimos una fila de muertas en el borde inferior
 void Lattice::extendLowerBorder() {
     this->cells_.insert(this->cells_.end(), std::vector<Cell*>(width_, new Cell));
     this->height_++;
 }
 
+// Comprobamos si hay alguna celula viva en el borde izquierdo
 bool Lattice::checkLeftBorder() {
     std:: cout << "CheckLeftBorder" << std::endl;
     bool check = false;
@@ -380,6 +385,7 @@ bool Lattice::checkLeftBorder() {
     return check;
 }
 
+// Añadimos una columna de muertas en el borde izquierdo
 void Lattice::extendLeftBorder() {
     std:: cout << "extendLeftBorder" << std::endl;
     for (int i = 0; i < height_; ++i) {
@@ -389,6 +395,7 @@ void Lattice::extendLeftBorder() {
     std:: cout << "extendLeftBorder CHECK" << std::endl;
 }
 
+// Comprobamos si hay alguna celula viva en el borde derecho
 bool Lattice::checkRightBorder() {
     bool check = false;
     for (int i = 1; i < height_ - 1; ++i) {
@@ -402,6 +409,7 @@ bool Lattice::checkRightBorder() {
     return check;
 }
 
+// Añadimos una columna de muertas en el borde derecho
 void Lattice::extendRightBorder() {
     for (int i = 0; i < height_; ++i) {
         this->cells_[i].push_back(new Cell);
@@ -409,6 +417,7 @@ void Lattice::extendRightBorder() {
     this->width_++;
 }
 
+// Calcula la siguiente generación de células
 void Lattice::calculateNextState() {
     for (int y = 0; y < height_; ++y) {
         for (int x = 0; x < width_; ++x) {
@@ -425,6 +434,7 @@ void Lattice::calculateNextState() {
     }
 }
 
+// Calcula la siguiente generación de células sin tener en cuenta frontera
 void Lattice::calculateNextStateWithOutFrontier() {
     for (int y = 1; y < height_ - 1; ++y) {
         for (int x = 1; x < width_ - 1; ++x) {

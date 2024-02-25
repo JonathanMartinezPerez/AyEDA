@@ -177,11 +177,13 @@ Lattice::Lattice(const char* filename, const Frontier& border) {
 
 // Destructor de la cuadrícula
 Lattice::~Lattice() {
+    /*
     for (int i = 0; i < height_; ++i) {
         for (int j = 0; j < width_; ++j) {
             delete cells_[i][j];
         }
     }
+    */
 }
 
 // Devuelve la célula en una posición dada
@@ -345,8 +347,7 @@ void Lattice::nextGenerationOpen() {
 void Lattice::nextGenerationNoFrontier() {
     this->calculateNextStateWithOutFrontierNoPosition();
     // Comprobamos los cuatro lados exteriores de la frontera
-    // Si un lado tiene alguna viva, hay que añadir una fila o columna de muertas con front() o push() en ese lado
-    // Si std::vector no actualiza, hay que hacer los metodos
+    // Si un lado tiene alguna viva, hay que añadir una fila o columna de muertas en ese lado
 
     this->checkUpperBorder();
     this->checkLowerBorder();
@@ -396,7 +397,6 @@ void Lattice::extendLowerBorder() {
 
 // Comprobamos si hay alguna celula viva en el borde izquierdo
 bool Lattice::checkLeftBorder() {
-    std:: cout << "CheckLeftBorder" << std::endl;
     bool check = false;
     for (int i = 1; i < height_ - 1; ++i) {
         if (this->cells_[i][1]->getState() == ALIVE) {
@@ -411,12 +411,10 @@ bool Lattice::checkLeftBorder() {
 
 // Añadimos una columna de muertas en el borde izquierdo
 void Lattice::extendLeftBorder() {
-    std:: cout << "extendLeftBorder" << std::endl;
     for (int i = 0; i < height_; ++i) {
         this->cells_[i].insert(this->cells_[i].begin(), new Cell);
     }
     this->width_++;
-    std:: cout << "extendLeftBorder CHECK" << std::endl;
 }
 
 // Comprobamos si hay alguna celula viva en el borde derecho
@@ -496,7 +494,7 @@ void Lattice::calculateNextStateWithOutFrontierNoPosition() {
 void Lattice::saveToFile() {
         std::ofstream outFile("game_of_life.txt");
         if (!outFile) {
-            std::cerr << "Error: Unable to open file." << std::endl;
+            std::cerr << "Error: No se puede abrir el fichero" << std::endl;
             return;
         }
         for (int i = 0; i < height_; ++i) {
@@ -505,7 +503,7 @@ void Lattice::saveToFile() {
             }
             outFile << std::endl;
         }
-        std::cout << "Board saved to 'game_of_life.txt'" << std::endl;
+        std::cout << "Copiado a... 'game_of_life.txt'" << std::endl;
         outFile.close();
 }
 

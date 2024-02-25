@@ -53,12 +53,12 @@ void ProgramParameters::runSimulation() {
     }
 
     if (!border_received) {
-        std::cerr << "Error: Border type not provided.\n";
+        std::cerr << "Error: No se especifico frontera\n";
         return;
     }
 
     if (!size_received && !file_option) {
-        std::cerr << "Error: Either size or initialization file must be provided.\n";
+        std::cerr << "Error: No se ha provisto ni de init ni size.\n";
         return;
     }
 

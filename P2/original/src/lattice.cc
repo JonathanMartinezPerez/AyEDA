@@ -217,7 +217,6 @@ void Lattice::ShowIterations() {
         std::cout << *this << std::endl;
     }
 
-    std::cout << "🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨" << std::endl;
     // Calcular la siguiente generación y mostrarla cada vez que se pulse intro salir con q
     while (true) {
         startGeneration();
@@ -235,6 +234,7 @@ void Lattice::ShowIterations() {
                     if (showBoard) {
                         std::cout << "Iteracion: " << iteration++ << std::endl;
                         if (border_ == NOFRONTIER) {
+                            std::cout << "Tamaño del tablero " << width_ - 4 << "x" << height_ - 4 << std::endl;
                             showLatticeWithNoBorders();
                         } else {
                             std::cout << *this << std::endl;
@@ -249,6 +249,7 @@ void Lattice::ShowIterations() {
                         for (int i = 0; i < 5; ++i) {
                             std::cout << "Iteracion: " << iteration++ << std::endl;
                             if (border_ == NOFRONTIER) {
+                                std::cout << "Tamaño del tablero " << width_ - 4 << "x" << height_ - 4 << std::endl;
                                 showLatticeWithNoBorders();
                             } else {
                                 std::cout << *this << std::endl;

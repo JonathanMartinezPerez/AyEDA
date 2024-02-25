@@ -64,6 +64,8 @@ class Lattice{
         void extendLeftBorder();
         void extendRightBorder();
 
+        void saveToFile();
+
         void mostrarMundo();
 
         std::size_t Population() const;

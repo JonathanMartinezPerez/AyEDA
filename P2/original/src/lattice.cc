@@ -201,22 +201,55 @@ int Lattice::getHeight() const {
 // Muestra el estado de la cuadrícula
 void Lattice::ShowIterations() {
     unsigned iteration = 0;
+    char command;
+    bool showBoard = true;
     std::cout << "Tamaño del tablero " << width_ - 4 << "x" << height_ - 4 << std::endl;
-    std::cout << "Population: " << Population() << std::endl;
     std::cout << "Iteracion: " << iteration++ << std::endl;
     std::cout << *this << std::endl;
-    //mostrarMundo();
     std::cout << "🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨" << std::endl;
     // Calcular la siguiente generación y mostrarla cada vez que se pulse intro salir con q
     while (true) {
         startGeneration();
-        std::cout << "Tamaño del tablero " << height_ - 4 << "x" << width_ - 4 << std::endl;
-        std::cout << "Population: " << Population() << std::endl;
-        std::cout << "Iteracion: " << iteration++ << std::endl;
-        std::cout << *this << std::endl;
-        if (std::cin.get() == 'q') {
-            break;
-        }
+        std::cout << "Comandos: (x - salir, n - next generation, L - next 5 generations, c - solo poblacion, s - guardar en fichero): ";
+            std::cin >> command;
+
+            switch (command) {
+                case 'x':
+                    return;
+                case 'n':
+                    if (showBoard) {
+                        std::cout << "Iteracion: " << iteration++ << std::endl;
+                        std::cout << *this << std::endl;
+                    } else {
+                        std::cout << "Iteracion" << iteration++ << std::endl;
+                        std::cout << "Poblacion: " << Population() << std::endl;
+                    }
+                    break;
+                case 'L':
+                    if (showBoard) {
+                        for (int i = 0; i < 5; ++i) {
+                            std::cout << "Iteracion: " << iteration++ << std::endl;
+                            std::cout << *this << std::endl;
+                        }
+                    } else {
+                        for (int i = 0; i < 5; ++i) {
+                            std::cout << "Iteracion" << iteration++ << std::endl;
+                            std::cout << "Poblacion: " << Population() << std::endl;
+                        }
+                    }
+                    break;
+                case 'c':
+                    // Showboard cambia a false si esta true y true si esta false
+                    showBoard = !showBoard;
+                    std::cout << "Iteracion" << iteration++ << std::endl;
+                    std::cout << "Poblacion: " << Population() << std::endl;
+                    break;
+                case 's':
+                    saveToFile();
+                    break;
+                default:
+                    std::cout << "Invalid command! Please try again." << std::endl;
+            }
     }
     std::cout << std::endl;
 }
@@ -423,6 +456,23 @@ void Lattice::calculateNextStateWithOutFrontierNoPosition() {
             cells_[y][x]->updateState(); 
         }
     }
+}
+
+// Guarda el estado de la cuadrícula en un archivo
+void Lattice::saveToFile() {
+        std::ofstream outFile("game_of_life.txt");
+        if (!outFile) {
+            std::cerr << "Error: Unable to open file." << std::endl;
+            return;
+        }
+        for (int i = 0; i < height_; ++i) {
+            for (int j = 0; j < width_; ++j) {
+                outFile << (cells_[i][j]->getState() ? 'X' : ' ') << ' ';
+            }
+            outFile << std::endl;
+        }
+        std::cout << "Board saved to 'game_of_life.txt'" << std::endl;
+        outFile.close();
 }
 
 // Devuelve el número de células vivas en la cuadrícula

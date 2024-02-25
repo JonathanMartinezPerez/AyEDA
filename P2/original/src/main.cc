@@ -9,19 +9,19 @@
 #include "cell.h"
 #include "programparameters.h"
 
-int main() {
+int main(int argc, char* argv[]) {
   
-    /*ProgramParameters params(argc, argv);
+    ProgramParameters params(argc, argv);
 
     params.runSimulation();
 
-    std::cout << "Terminando..." << std::endl;*/
+    std::cout << "Terminando..." << std::endl;
 
-    //Lattice lattice("init5x5.txt", PERIODIC);
+    //Lattice lattice("init5x5.txt", NOFRONTIER);
 
-    Lattice lattice(20, 10, HOT);
+    //Lattice lattice(5, 5, NOFRONTIER);
 
-    lattice.ShowIterations();
+    //lattice.ShowIterations();
 
     return 0;
 }

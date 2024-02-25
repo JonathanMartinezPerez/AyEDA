@@ -24,9 +24,7 @@ class ProgramParameters {
         bool borderReceived() const { return border_received; }
         Frontier getBorder() const { return border; }
         bool fileOption() const { return file_option; }
-        std::string getFilename() const { return filename; }
-        bool outputByFile() const { return outputByFile_; }
-        std::string getOutputFilename() const { return outputFilename; }
+        char* getFilename() const { return filename; }
 
     private:
         bool showHelp_ = false;
@@ -35,9 +33,7 @@ class ProgramParameters {
         bool border_received = false;
         Frontier border = COLD;
         bool file_option = false;
-        std::string filename;
-        bool outputByFile_ = false;
-        std::string outputFilename;
+        char* filename;
 };
 
 

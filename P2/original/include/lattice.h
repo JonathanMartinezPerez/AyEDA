@@ -43,6 +43,29 @@ class Lattice{
 
         void nextGeneration();
         void ShowIterations();
+        void startGeneration();
+
+        void nextGenerationOpen();
+        void nextGenerationPeriodic();
+        void nextGenerationReflective();
+        void nextGenerationNoFrontier();
+
+        void calculateNextState();
+        void calculateNextStateWithOutFrontier();
+        void calculateNextStateWithOutFrontierNoPosition();
+
+        bool checkUpperBorder();
+        bool checkLowerBorder();
+        bool checkLeftBorder();
+        bool checkRightBorder();
+
+        void extendUpperBorder();
+        void extendLowerBorder();
+        void extendLeftBorder();
+        void extendRightBorder();
+
+        void mostrarMundo();
+
         std::size_t Population() const;
 
         friend std::ostream& operator<<(std::ostream& , const Lattice&);

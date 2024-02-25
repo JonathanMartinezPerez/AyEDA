@@ -1,102 +1,159 @@
-//Practica 2 : Implementación de un autómata celular bidimensional
-//Autor : <Jonathan Martínez Pérez>
-//Correo : <alu0101254098@ull.edu.es>
-//Archivo programparameters.cc
+// Practica 2 : Implementación de un autómata celular bidimensional
+// Autor : <Jonathan Martínez Pérez>
+// Correo : <alu0101254098@ull.edu.es>
+// Archivo programparameters.cc
 
 #include "programparameters.h"
 
+// Constructor de la clase ProgramParameters
 ProgramParameters::ProgramParameters(int argc, char* argv[]) {
-    std::vector<std::string> args(argv + 1, argv + argc);
-    bool valid_option;
-    const int minargc{5};
-    for (unsigned i = 0; i < args.size(); ++i) {
-        valid_option = false;
+    if (argc < 3) {
+        std::cerr << "Error: Argumentos insuficientes." << std::endl;
+        showHelp();
+        exit(EXIT_FAILURE);
+    }
+    std::vector<std::string> args(argv, argv + argc);
+    size_received = false;
+    border_received = false;
+    file_option = false;
+
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+
         if (args[i] == "-size") {
-            if (i + 2 < args.size()) { // Asegurar que hay suficientes argumentos para tamaño
-                valid_option = true;
-                size_received = true;
-                int rows = std::stoi(args[i + 1]);
-                int cols = std::stoi(args[i + 2]);
-                size = std::make_pair(rows, cols); // Almacenar el tamaño como un par de enteros
-                i += 2; // Avanzar a los próximos dos argumentos
-            } else {
-                std::cerr << "Argumentos insuficientes para -size" << std::endl;
-                exit(EXIT_FAILURE);
-            }
-        } else if (args[i] == "-border") {
-            if (i + 1 < args.size()) {
-                valid_option = true;
-                border_received = true;
-                std::string border_arg = args[i + 1];
-                if (border_arg == "open") {
-                    if (i + 2 < args.size()) {
-                        if (args[i + 2] == "0") {
-                            border = COLD;
-                        } else if (args[i + 2] == "1") {
-                            border = HOT;
-                        } else {
-                            std::cerr << "Argumento invalido para frontera" << std::endl;
-                            exit(EXIT_FAILURE);
-                        }
-                    } else {
-                        std::cerr << "Argumento invalido para frontera" << std::endl;
-                        exit(EXIT_FAILURE);
-                    }
-                    i += 2; // Avanzar a los próximos dos argumentos
-                } else if (border_arg == "periodic") {
-                    border = PERIODIC;
-                    ++i; // Avanzar al próximo argumento
+            if (i + 2 < argc) {
+                if (!size_received) {
+                    size_received = true;
+                    std::cout << "Size received" << std::endl;
+                    int rows = std::stoi(argv[i + 1]);
+                    int cols = std::stoi(argv[i + 2]);
+                    size = std::make_pair(rows, cols);
+                    i += 2; 
                 } else {
-                    std::cerr << "Frontera invalida" << std::endl;
+                    std::cerr << "Error: Se proporcionaron múltiples argumentos para -size." << std::endl;
                     exit(EXIT_FAILURE);
                 }
             } else {
-                std::cerr << "Argumentos insuficientes para -border" << std::endl;
+                std::cerr << "Error: Argumentos insuficientes para -size." << std::endl;
                 exit(EXIT_FAILURE);
             }
-        } else if (args[i] == "-init") {
-            // Código para procesar la opción -init...
-        } else if (args[i] == "-help") {
-            // Código para procesar la opción -help...
-        }
-        if (!valid_option) {
-            std::cerr << args[i] << " no es valido" << std::endl;
-            std::cerr << "Para imprimir ayuda " << argv[0] << " -help" << std::endl;
+        } else if (args[i] == "-border") {
+            if (i + 1 < argc) {
+                if (!border_received) {
+                    border_received = true;
+                    std::string border_arg = argv[i + 1];
+                    if (border_arg == "open") {
+                        if (border_arg == "open" && i + 2 < argc) {
+                            ++i;
+                        }
+                        if (i + 1 < argc) {
+                            if (isdigit(argv[i + 1][0])) {
+                                border = (argv[i + 1][0] == '0') ? COLD : HOT;
+                            } else {
+                                std::cerr << "Argumento inválido para -border." << std::endl;
+                                exit(EXIT_FAILURE);
+                            }
+                        } else {
+                            std::cerr << "Argumentos insuficientes para -border." << std::endl;
+                            exit(EXIT_FAILURE);
+                        }
+                    } else {
+                        std::cerr << "Frontera inválida." << std::endl;
+                        exit(EXIT_FAILURE);
+                    }
+                } else {
+                    std::string border_arg = argv[i + 1];
+                    if (border_arg == "reflective") {
+                        border = REFLECTIVE;
+                    } else if (border_arg == "noborder") {
+                        border = NOFRONTIER;
+                    } else {
+                        std::cerr << "Frontera inválida." << std::endl;
+                        exit(EXIT_FAILURE);
+                    }
+                }
+            } else {
+                std::cerr << "Error: Argumentos insuficientes para -border." << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        } else if (arg == "-init") {
+            if (i + 1 < argc) {
+                if (!file_option) {
+                    file_option = true;
+                    filename = argv[i + 1];
+                    ++i;  // Skip the next argument
+                } else {
+                    std::cerr << "Error: Se proporcionaron múltiples argumentos para -init." << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+            } else {
+                std::cerr << "Error: Argumentos insuficientes para -init." << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        } else if (arg == "-help") {
+            showHelp();
+            exit(EXIT_SUCCESS);
+        } else {
+            std::cerr << "Error: Argumento inválido." << std::endl;
+            showHelp();
             exit(EXIT_FAILURE);
         }
     }
-    if (argc > 1) {
-        std::string param1 = argv[1];
-        if (param1 == "-help") {
-            showHelp();
-            exit(EXIT_SUCCESS);
-        }
+
+    if (!border_received) {
+        std::cerr << "Error: El parámetro -border es obligatorio." << std::endl;
+        showHelp();
+        exit(EXIT_FAILURE);
     }
-    if (argc >= minargc) {
-        std::cout << "El programa lleva a cabo la simulacion de un automata celular con la regla 110\n"
-                  << "Pulsar q y enter para finalizar" << std::endl;
-    } else {
-        std::cerr << "Los parametros no son suficientes o incorrectos" << argv[0] << "--help" << std::endl;
+
+    if (size_received && file_option) {
+        std::cerr << "Error: Los parámetros -size e -init son excluyentes." << std::endl;
+        showHelp();
         exit(EXIT_FAILURE);
     }
 }
 
+// Método para empezar la simulación
 void ProgramParameters::runSimulation() {
-    if (this->sizeReceived() && this->borderReceived()) {
-        std::cout << "Tamaño: " << this->getSize().first << "x" << this->getSize().second << std::endl;
-        std::cout << "Frontera: " << this->getBorder() << std::endl;
-        
+    if (sizeReceived() && borderReceived()) {
+        std::cout << "Tamaño: " << size.first << "x" << size.second << std::endl;
+        std::cout << "Frontera: ";
+        switch (border) {
+            case COLD:
+                std::cout << "Frontera fría" << std::endl;
+                break;
+            case HOT:
+                std::cout << "Frontera caliente" << std::endl;
+                break;
+            case PERIODIC:
+                std::cout << "Periódica" << std::endl;
+                break;
+            case REFLECTIVE:
+                std::cout << "Reflectora" << std::endl;
+                break;
+            case NOFRONTIER:
+                std::cout << "Sin Frontera" << std::endl;
+                break;
+        }
+        Lattice lattice(this->getSize().first, this->getSize().second, this->getBorder());
+        lattice.ShowIterations();
 
+    } else if (this->fileOption()) {
+        std::cout << "Archivo: " << this->getFilename() << std::endl;
+        Lattice lattice(this->getFilename(), this->getBorder());
+        lattice.ShowIterations();
     } else {
-        std::cerr << "No se indicaron los parámetros correctamente" << std::endl;
+        std::cerr << "No se indicaron los parametros correctamente" << std::endl;
+        showHelp();
     }
 }
 
+// Método para mostrar la ayuda del programa
 void ProgramParameters::showHelp() const {
-    std::cout << "Este programa corre un automata celular con la regla 110.\n"
+    std::cout << "Este programa corre un automata celular bidimensional.\n"
               << "Puedes seguir cuantas interacciones quieras hasta presionar q y enter.\n"
               << "La estructura para ejecutar el programa seria:\n"
-              << "./main -size <X> <Y> -border <open [0|1] | periodic> -init <file>\n"
-              << "Size y border son obligatorios mientras que init es opcional\n"
+              << "./main -size <X> <Y> -border <reflective | noborder> [-init <file>] [-help]\n"
+              << "Size y init son excluyentes mientras que border es obligatorio\n"
               << "0 es frontera fria y 1 caliente, ademas podras usar -help para imprimir este mensaje\n" << std::endl;
 }

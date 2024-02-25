@@ -32,6 +32,7 @@ class Cell{
         State setState(State);
 
         State nextState(const Lattice&);
+        State nextState(const Lattice& lattice, int y, int x);
         void updateState();
 
     private:

@@ -77,6 +77,8 @@ Lattice::Lattice(const int width, const int height, const Frontier& border) {
             }
         }
     }
+    this->width_ = adjusted_width;
+    this->height_ = adjusted_height;
 }
 
 // Constructor de la cuadrícula desde un archivo

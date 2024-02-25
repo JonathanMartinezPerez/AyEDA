@@ -17,11 +17,5 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Terminando..." << std::endl;
 
-    //Lattice lattice("init5x5.txt", NOFRONTIER);
-
-    //Lattice lattice(5, 5, NOFRONTIER);
-
-    //lattice.ShowIterations();
-
     return 0;
 }

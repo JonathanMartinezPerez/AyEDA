@@ -63,13 +63,8 @@ void ProgramParameters::runSimulation() {
     }
 
     if (sizeReceived() && borderReceived()) {
-
-        if (this->getBorder() == NOFRONTIER) {
-            std::cout << "Tamaño: " << size.first + 2 << "x" << size.second + 2 << std::endl;
-        }
-        else {
-            std::cout << "Tamaño: " << size.first << "x" << size.second << std::endl;
-        }
+        
+        std::cout << "Tamaño: " << size.first << "x" << size.second << std::endl;
         
         std::cout << "Frontera: ";
         switch (border) {
@@ -95,8 +90,8 @@ void ProgramParameters::runSimulation() {
     } else if (this->fileOption()) {
         std::cout << "Archivo: " << this->getFilename() << std::endl;
         std::cout << "Frontera: " << this->getBorder() << std::endl;
-        Lattice lattice(this->getFilename(), this->getBorder());
-        lattice.ShowIterations();
+        Lattice lattice1(this->getFilename(), this->getBorder());
+        lattice1.ShowIterations();
     } else {
         std::cerr << "No se indicaron los parametros correctamente" << std::endl;
         showHelp();

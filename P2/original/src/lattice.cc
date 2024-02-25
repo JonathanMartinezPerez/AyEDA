@@ -107,8 +107,13 @@ Lattice::Lattice(const char* filename, const Frontier& border) {
         adjusted_height += 4;
     }
     // Inicializar la cuadrícula con células muertas
-    cells_.resize(adjusted_height, std::vector<Cell*>(adjusted_width, nullptr));
+    cells_.resize(adjusted_height, std::vector<Cell*>(adjusted_width, new Cell()));
 
+    for (int i = 0; i < adjusted_height; ++i) {
+        for (int j = 0; j < adjusted_width; ++j) {
+            cells_[i][j] = new Cell(Position(j, i), DEAD);
+        }
+    }
     // Leer el contenido del archivo y configurar las células según su estado
     for (int i = 0; i < rows; ++i) {
         std::string row_data;
@@ -116,13 +121,14 @@ Lattice::Lattice(const char* filename, const Frontier& border) {
 
         for (int j = 0; j < cols; ++j) {
             char state_char = row_data[j];
-            int x = border != NOFRONTIER ? j + 1 : j;
-            int y = border != NOFRONTIER ? i + 1 : i;
+            int x = border != NOFRONTIER ? j + 1 : j + 2;
+            int y = border != NOFRONTIER ? i + 1 : i + 2;
 
-            if (state_char == '1')
+            if (state_char == '1') {
                 cells_[y][x] = new Cell(Position(x, y), ALIVE);
-            else
+            } else {
                 cells_[y][x] = new Cell(Position(x, y), DEAD);
+            }
         }
     }
 
@@ -205,7 +211,12 @@ void Lattice::ShowIterations() {
     bool showBoard = true;
     std::cout << "Tamaño del tablero " << width_ - 4 << "x" << height_ - 4 << std::endl;
     std::cout << "Iteracion: " << iteration++ << std::endl;
-    std::cout << *this << std::endl;
+    if (border_ == NOFRONTIER) {
+        showLatticeWithNoBorders();
+    } else {
+        std::cout << *this << std::endl;
+    }
+
     std::cout << "🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨" << std::endl;
     // Calcular la siguiente generación y mostrarla cada vez que se pulse intro salir con q
     while (true) {
@@ -213,13 +224,21 @@ void Lattice::ShowIterations() {
         std::cout << "Comandos: (x - salir, n - next generation, L - next 5 generations, c - solo poblacion, s - guardar en fichero): ";
             std::cin >> command;
 
+            if (border_ == NOFRONTIER) {
+                std ::cout << "Tamaño del tablero " << width_ - 4 << "x" << height_ - 4 << std::endl;
+            }
+
             switch (command) {
                 case 'x':
                     return;
                 case 'n':
                     if (showBoard) {
                         std::cout << "Iteracion: " << iteration++ << std::endl;
-                        std::cout << *this << std::endl;
+                        if (border_ == NOFRONTIER) {
+                            showLatticeWithNoBorders();
+                        } else {
+                            std::cout << *this << std::endl;
+                        }
                     } else {
                         std::cout << "Iteracion" << iteration++ << std::endl;
                         std::cout << "Poblacion: " << Population() << std::endl;
@@ -229,7 +248,11 @@ void Lattice::ShowIterations() {
                     if (showBoard) {
                         for (int i = 0; i < 5; ++i) {
                             std::cout << "Iteracion: " << iteration++ << std::endl;
-                            std::cout << *this << std::endl;
+                            if (border_ == NOFRONTIER) {
+                                showLatticeWithNoBorders();
+                            } else {
+                                std::cout << *this << std::endl;
+                            }
                         }
                     } else {
                         for (int i = 0; i < 5; ++i) {
@@ -248,7 +271,7 @@ void Lattice::ShowIterations() {
                     saveToFile();
                     break;
                 default:
-                    std::cout << "Invalid command! Please try again." << std::endl;
+                    std::cout << "Comando no valido." << std::endl;
             }
     }
     std::cout << std::endl;
@@ -434,7 +457,7 @@ void Lattice::calculateNextState() {
     }
 }
 
-// Calcula la siguiente generación de células sin tener en cuenta frontera
+// Calcula la siguiente generación de células sin modificar frontera para open
 void Lattice::calculateNextStateWithOutFrontier() {
     for (int y = 1; y < height_ - 1; ++y) {
         for (int x = 1; x < width_ - 1; ++x) {
@@ -498,6 +521,7 @@ std::size_t Lattice::Population() const {
     return population;
 }
 
+/*
 // Sobrecarga del operador de inserción para imprimir la cuadrícula
 std::ostream& operator<<(std::ostream& os, const Lattice& lattice) {
     for (int y = 0; y < lattice.getWidth() + 2; ++y) {
@@ -518,31 +542,44 @@ std::ostream& operator<<(std::ostream& os, const Lattice& lattice) {
         os << "🟦";
     }
     return os << std::endl;
-}
-/*
+}*/
+
 // Sobrecarga del operador de inserción para imprimir la cuadrícula
 std::ostream& operator<<(std::ostream& os, const Lattice& lattice) {
-    os << "🟩" << std::endl;
+    for (int y = 0; y < lattice.getWidth() + 2; ++y) {
+        os << "-";
+    }
+    std::cout << std::endl;
     for (auto& row : lattice.getCells()) {
         os << "|";
         for (auto& cellPtr : row)
             os << *cellPtr;
         os << "|" << std::endl;
     }
-    os << "-------------" << std::endl;
+    for (int y = 0; y < lattice.getWidth() + 2; ++y) {
+        os << "-";
+    }
     return os;
 }
-*/
-void Lattice::mostrarMundo() {
-    std::cout << "-------------" << std::endl;
+
+void Lattice::showLatticeWithNoBorders() {
+    for (int y = 0; y < width_; ++y) {
+        std::cout << "-";
+    }
+    std::cout << std::endl;
     for (int y = 2; y < height_ - 2; ++y) {
         std::cout << "|";
-        for (int x = 2; x < width_ - 2; ++x) {
-            std::cout << *cells_[y][x];
-        }
+        for (int x = 2; x < width_  - 2; ++x)
+            if (getCells()[y][x]->getState() == ALIVE) {
+                std::cout << "X";
+            } else {
+                std::cout << " ";
+            }
         std::cout << "|" << std::endl;
     }
-    std::cout << "-------------" << std::endl;
+    for (int y = 0; y < width_; ++y) {
+        std::cout << "-";
+    }
 }
 
 // Sobrecarga del operador de acceso para obtener una célula en una posición dada

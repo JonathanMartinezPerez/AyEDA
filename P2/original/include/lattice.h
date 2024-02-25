@@ -66,7 +66,7 @@ class Lattice{
 
         void saveToFile();
 
-        void mostrarMundo();
+        void showLatticeWithNoBorders();
 
         std::size_t Population() const;
 

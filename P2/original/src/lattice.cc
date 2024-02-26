@@ -237,7 +237,7 @@ void Lattice::ShowIterations() {
                         std::cout << "Iteracion: " << iteration++ << std::endl;
                         if (border_ == NOFRONTIER) {
                             std::cout << "Tamaño del tablero " << width_ - 4 << "x" << height_ - 4 << std::endl;
-                            showLatticeWithNoBorders();
+                            std::cout << *this << std::endl;
                         } else {
                             std::cout << *this << std::endl;
                         }
@@ -252,7 +252,7 @@ void Lattice::ShowIterations() {
                             std::cout << "Iteracion: " << iteration++ << std::endl;
                             if (border_ == NOFRONTIER) {
                                 std::cout << "Tamaño del tablero " << width_ - 4 << "x" << height_ - 4 << std::endl;
-                                showLatticeWithNoBorders();
+                                std::cout << *this << std::endl;
                             } else {
                                 std::cout << *this << std::endl;
                             }
@@ -562,13 +562,15 @@ std::ostream& operator<<(std::ostream& os, const Lattice& lattice) {
 }
 
 void Lattice::showLatticeWithNoBorders() {
-    for (int y = 0; y < width_; ++y) {
+    int width = getWidth(); // Obtener el ancho del retículo
+    int height = getHeight(); // Obtener la altura del retículo
+    for (int y = 0; y < width; ++y) {
         std::cout << "-";
     }
     std::cout << std::endl;
-    for (int y = 2; y < height_ - 2; ++y) {
+    for (int y = 2; y < height - 2; ++y) {
         std::cout << "|";
-        for (int x = 2; x < width_  - 2; ++x)
+        for (int x = 2; x < width  - 2; ++x)
             if (getCells()[y][x]->getState() == ALIVE) {
                 std::cout << "X";
             } else {
@@ -576,7 +578,7 @@ void Lattice::showLatticeWithNoBorders() {
             }
         std::cout << "|" << std::endl;
     }
-    for (int y = 0; y < width_; ++y) {
+    for (int y = 0; y < width; ++y) {
         std::cout << "-";
     }
 }

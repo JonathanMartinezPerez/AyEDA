@@ -1,3 +1,4 @@
+//hash.h
 #pragma once
 
 #include "sequence.h"

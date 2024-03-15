@@ -15,7 +15,7 @@ class ExplorationFunction {
 template <class Key>
 class LinearExploration : public ExplorationFunction<Key> {
   public:
-    unsigned operator()(const Key& key, unsigned i) const override {
+    unsigned operator()(const Key&, unsigned i) const override {
       return i;
     }
 };
@@ -24,7 +24,7 @@ class LinearExploration : public ExplorationFunction<Key> {
 template <class Key> 
 class QuadraticExploration : public ExplorationFunction<Key> {
   public:
-    unsigned operator()(const Key& key, unsigned i) const override {
+    unsigned operator()(const Key&, unsigned i) const override {
       return (i * i);
     }
 };
@@ -38,7 +38,7 @@ class DoubleHashingExploration : public ExplorationFunction<Key> {
             return (f_(key) * i);
         }
     private:
-        DispersionFunction<Key> f_; // Función auxiliar f(k)
+        const DispersionFunction<Key>& f_; // Función auxiliar f(k)
 };
 
 template <class Key>

@@ -3,6 +3,7 @@
 
 #include "sequence.h"
 #include "function.h"
+#include "exploration.h"
 
 template <class Key, class Container = StaticSequence<Key>>
 class HashTable : public Sequence<Key> {
@@ -14,7 +15,7 @@ class HashTable : public Sequence<Key> {
   private:
     size_t tableSize_; 
     Container* table_;
-    DispersionFunction<key>& fd_;
+    DispersionFunction<Key>& fd_;
     ExplorationFunction<Key>& fe_;
     size_t blockSize_;
 };

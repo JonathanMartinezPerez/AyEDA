@@ -1,3 +1,4 @@
+//sequence.h
 #pragma once
 
 #include <iostream>
@@ -9,26 +10,16 @@ class Sequence {
     public: 
         virtual bool search(const Key& k) const = 0;
         virtual bool insert(const Key& k) = 0;
+        virtual ~Sequence() {}
 };
 
 template<class Key> 
 class DynamicSequence: public Sequence<Key> {
     public:
-        DynamicSequence() {
-            data_ = std::vector<Key>();
-        }
-        ~DynamicSequence() {
-            data_.clear();
-        }
-        
+        DynamicSequence() {}
+        ~DynamicSequence() {}
         bool search(const Key& k) const;
         bool insert(const Key& k);
-        void print(std::ostream& os) const{
-            for (long unsigned int i = 0; i < data_.size(); i++) {
-                os << data_[i] << " ";
-            }
-            os << std::endl;
-        }
         std::vector<Key> getData() const {return data_;}
     private:
         std::vector<Key> data_;
@@ -47,14 +38,8 @@ class StaticSequence: public Sequence<Key> {
         bool isFull() const;
         bool search(const Key& k) const;
         bool insert(const Key& k);
-        void print(std::ostream& os) const{
-            for (int i = 0; i < size_; i++) {
-                os << data_[i] << " ";
-            }
-            os << std::endl;
-        }
         unsigned getSize() {return size_;}
-        Key* getData() {return data_;}
+        Key* getData() {return data_.data();}
     private:
         int size_;
         std::vector<Key> data_;
@@ -70,10 +55,13 @@ bool DynamicSequence<Key>::search(const Key& k) const {
     return false;
 }
 
-template<class Key>
-bool DynamicSequence<Key>::insert(const Key& k) {
-    data_.push_back(k);
-    return true;
+template <class Key>
+bool DynamicSequence<Key>::insert(const Key& key) {
+    if (!search(key)) {
+        data_.push_back(key);
+        return true;
+    }
+    return false;
 }
 
 template<class Key>

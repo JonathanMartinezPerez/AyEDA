@@ -2,65 +2,32 @@
 #include "../include/sequence.h"
 #include "../include/function.h"
 #include "../include/exploration.h"
-
+#include "../include/hash.h"
 
 #include <iostream>
 
-//main para probar que sequence y function funcionan
 int main() {
-    
-    std::cout << "Ejemplo de uso de la clase DispersionFunction: \n";
+    // Crear objetos de dispersión y exploración
+    ModuleDispersion<int> modulo(6);
+    LinearExploration<int> linear;
+    QuadraticExploration<int> quadratic;
+    ModuleDispersion<int> moduloDouble(6);
+    DoubleHashingExploration<int> doubleHashing(moduloDouble);
+    ModuleDispersion<int> moduloRehash(6);
+    RehashingExploration<int> rehashing(moduloRehash);
 
-    ModuleDispersion<int> modulo(10);
-    std::cout << "Modulo: " << modulo(23) << std::endl;
+    // Crear una tabla de dispersión con staticSequence como contenedor
+    HashTable<int, StaticSequence<int>> staticHashTable(10, modulo, linear, 5);
 
-    SumDispersion<std::vector<int>> suma(10);
-    std::vector<int> key = {1, 2, 3};
-    std::cout << "Suma: " << suma(key) << std::endl;
+    // Insertar algunos elementos en la tabla de dispersión estática
+    staticHashTable.insert(5);
+    staticHashTable.insert(15);
+    staticHashTable.insert(25);
+    staticHashTable.insert(35);
 
-    PseudorandomDispersion<int> pseudo(10);
-    std::cout << "Pseudoaleatoria: " << pseudo(42) << std::endl;
-
-    std::cout << "Ejemplo de uso de la clase Exploracion: \n";
-
-    LinearExploration<int> lineal;
-    std::cout << "Lineal: " << lineal(23, 2) << std::endl;
-
-    QuadraticExploration<int> cuadratica;
-    std::cout << "Cuadratica: " << cuadratica(23, 2) << std::endl;
-
-    ModuleDispersion<int> modulo2(10);
-    DoubleHashingExploration<int> doble_(modulo2);
-
-    std::cout << "Doble: " << doble_(23, 2) << std::endl;
-
-    ModuleDispersion<int> modulo3(10);
-    RehashingExploration<int> redis(modulo3);
-    std::cout << "Redispersion: " << redis(23, 2) << std::endl;
-
-    std::cout << "Ejemplo de uso de la clase Sequence: \n";
-
-    DynamicSequence<int> array; 
-    std::cout << "Insetar 1 y 2 en el array: \n";
-    array.insert(1);
-    array.insert(2);
-
-    std::cout << "Array: ";
-    array.print(std::cout);
-
-    std::cout << "Buscar 1 en el array: " << array.search(3) << std::endl;
-    std::cout << "------------------\n";
-
-    
-    StaticSequence<int> list(4);
-    std::cout << "Insetar 1 y 2 en la lista: \n";
-    list.insert(1);
-    list.insert(2);
-
-    std::cout << "List: ";
-    list.print(std::cout);
-
-    std::cout << "Buscar 1 en la lista: " << list.search(1) << std::endl;
+    // Mostrar la tabla de dispersión estática
+    std::cout << "Tabla de dispersión estática:" << std::endl;
+    staticHashTable.display(std::cout);
 
     return 0;
 }

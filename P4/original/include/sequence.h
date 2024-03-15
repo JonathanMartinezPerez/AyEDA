@@ -17,6 +17,10 @@ class DynamicSequence: public Sequence<Key> {
         DynamicSequence() {
             data_ = std::vector<Key>();
         }
+        ~DynamicSequence() {
+            data_.clear();
+        }
+        
         bool search(const Key& k) const;
         bool insert(const Key& k);
         void print(std::ostream& os) const{
@@ -35,10 +39,10 @@ class StaticSequence: public Sequence<Key> {
     public:
         StaticSequence(unsigned size) {
             size_ = size;
-            data_ = new Key[size];
+            data_ = std::vector<Key>(size);
         }
         ~StaticSequence() {
-            delete[] data_;
+            data_.clear();
         }
         bool isFull() const;
         bool search(const Key& k) const;
@@ -53,7 +57,7 @@ class StaticSequence: public Sequence<Key> {
         Key* getData() {return data_;}
     private:
         int size_;
-        Key* data_;
+        std::vector<Key> data_;
 };
 
 template<class Key>
@@ -75,8 +79,8 @@ bool DynamicSequence<Key>::insert(const Key& k) {
 template<class Key>
 bool StaticSequence<Key>::isFull() const {
     for (int i = 0; i < size_; i++) {
-        if (static_cast<unsigned int>(0)) {
-        return false;
+        if (data_[i] == 0) {
+            return false;
         }
     }
     return true;
@@ -95,12 +99,13 @@ bool StaticSequence<Key>::search(const Key& k) const {
 template<class Key>
 bool StaticSequence<Key>::insert(const Key& k) {
     if(isFull()) {
+        std::cout << "The array is full" << std::endl;
         return false;
     }
     for (int i = 0; i < size_; i++) {
-        if (static_cast<unsigned int>(0))  {
-        data_[i] = k;
-        return true;
+        if (data_[i] == 0) {
+            data_[i] = k;
+            return true;
         }
     }
     return false;

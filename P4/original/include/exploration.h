@@ -1,9 +1,9 @@
-//exploration.h
+#pragma once
 #include <iostream>
 #include <cstdlib>
 #include "function.h"
 
-// Clase para implementar las funciones de exploración
+// Declaración de la plantilla de la clase ExplorationFunction
 template <class Key>
 class ExplorationFunction {
   public:

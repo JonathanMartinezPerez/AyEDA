@@ -69,7 +69,7 @@ void HashTable<Key, Container>::display() const {
 template <class Key>
 class HashTable <Key, DynamicSequence<Key>> {
   public:
-    HashTable (unsigned tsz, DispersionFunction<Key>& fd) : tableSize_(tsz), fd_(fd) { 
+    HashTable (unsigned int tsz, DispersionFunction<Key>& fd) : tableSize_(tsz), fd_(fd) { 
         hashTable_ = new Sequence<Key>*[tableSize_];
         for (unsigned int i = 0; i < tableSize_; i++) {
           hashTable_[i] = new DynamicSequence<Key>{};

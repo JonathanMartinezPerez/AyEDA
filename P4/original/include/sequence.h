@@ -39,6 +39,10 @@ class StaticSequence: public Sequence<Key> {
         StaticSequence(unsigned size) {
             size_ = size;
             data_ = std::vector<Key>(size);
+            //igualar todos los elementos a 0
+            for (int i = 0; i < size_; i++) {
+                data_[i] = 0;
+            }
         }
         ~StaticSequence() {
             data_.clear();
@@ -78,7 +82,7 @@ bool DynamicSequence<Key>::insert(const Key& key) {
 template<class Key>
 bool StaticSequence<Key>::isFull() const {
     for (int i = 0; i < size_; i++) {
-        if (data_[i] == Key()) {
+        if (data_[i] == Key(0)) {
             return false;
         }
     }
@@ -100,11 +104,10 @@ bool StaticSequence<Key>::search(const Key& k) const {
 template<class Key>
 bool StaticSequence<Key>::insert(const Key& k) {
     if(isFull()) {
-        std::cout << "El array esta lleno" << std::endl;
         return false;
     }
     for (int i = 0; i < size_; i++) {
-        if (data_[i] == Key()) {
+        if (data_[i] == Key(0)) {
             data_[i] = k;
             return true;
         }

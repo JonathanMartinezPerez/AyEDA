@@ -30,7 +30,7 @@ class QuadraticExploration : public ExplorationFunction<Key> {
     }
 };
 
-// Clase para implementar la exploración doble
+// Clase para implementar la exploración doble dispersion
 template <class Key>
 class DoubleHashingExploration : public ExplorationFunction<Key> {
     public:
@@ -42,6 +42,7 @@ class DoubleHashingExploration : public ExplorationFunction<Key> {
         const DispersionFunction<Key>& f_; // Función auxiliar f(k)
 };
 
+// Clase para implementar la exploración por redispersion
 template <class Key>
 class RehashingExploration : public ExplorationFunction<Key> {
   public:

@@ -3,6 +3,7 @@
 #include "sequence.h"
 #include "function.h"
 
+// Clase para implementar la tabla hash
 template <class Key, class Container = StaticSequence<Key>>
 class HashTable : public Sequence <Key> {
   public:
@@ -24,6 +25,7 @@ class HashTable : public Sequence <Key> {
     Container** hashTable_;
 };
 
+// Implementación de las funcion insertar para la clase HashTable
 template <class Key, class Container>
 bool HashTable<Key, Container>::insert(const Key& key) {
   int position{0};
@@ -37,6 +39,7 @@ bool HashTable<Key, Container>::insert(const Key& key) {
   return false;
 }
 
+// Implementación de las funcion buscar para la clase HashTable
 template <class Key, class Container>
 bool HashTable<Key, Container>::search(const Key& key) const {
   int position{0};
@@ -50,6 +53,7 @@ bool HashTable<Key, Container>::search(const Key& key) const {
   return false;
 }
 
+// Implementación de la funcion display para la clase HashTable
 template <class Key, class Container>
 void HashTable<Key, Container>::display() const {
   for (unsigned int i = 0; i < tableSize_; i++) {
@@ -61,6 +65,7 @@ void HashTable<Key, Container>::display() const {
   }
 }
 
+// Clase para implementar la tabla hash con secuencias dinámicas
 template <class Key>
 class HashTable <Key, DynamicSequence<Key>> {
   public:
@@ -76,7 +81,7 @@ class HashTable <Key, DynamicSequence<Key>> {
     Sequence<Key>* hashTable_;
 };
 
-
+// Implementación de las funcion insertar para la clase HashTable con secuencias dinámicas
 template <class Key>
 bool HashTable<Key, DynamicSequence<Key>>::insert(const Key& key) {
   unsigned int position{0};
@@ -88,7 +93,7 @@ bool HashTable<Key, DynamicSequence<Key>>::insert(const Key& key) {
   return false;
 }
 
-
+// Implementación de las funcion buscar para la clase HashTable con secuencias dinámicas
 template <class Key>
 bool HashTable<Key, DynamicSequence<Key>>::search(const Key& key) const {
   unsigned int position{0};
@@ -100,6 +105,7 @@ bool HashTable<Key, DynamicSequence<Key>>::search(const Key& key) const {
   return false;
 }
 
+// Implementación de la funcion display para la clase HashTable con secuencias dinámicas
 template <class Key>
 void HashTable<Key, DynamicSequence<Key>>::display() const {
   for (unsigned int i = 0; i < tableSize_; i++) {

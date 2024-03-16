@@ -7,7 +7,8 @@
 #include <iostream>
 
 int main() {
-    ModuleDispersion<int> disp(100);
+
+    SumDispersion<int> disp(100);
     QuadraticExploration<int> expl;
     HashTable<int, StaticSequence<int>> tabla(100, disp, expl, 3);
     int input;
@@ -19,5 +20,6 @@ int main() {
     }   
 
     tabla.display();
+
     return 0;
 }

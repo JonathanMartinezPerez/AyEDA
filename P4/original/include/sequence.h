@@ -5,6 +5,8 @@
 #include <vector>
 #include <cstdlib>
 
+
+// Clase abstracta para implementar secuencias
 template<class Key>
 class Sequence {
     public: 
@@ -13,6 +15,7 @@ class Sequence {
         virtual ~Sequence() {}
 };
 
+// Clase para implementar secuencias dinámicas
 template<class Key> 
 class DynamicSequence: public Sequence<Key> {
     public:
@@ -25,6 +28,7 @@ class DynamicSequence: public Sequence<Key> {
         std::vector<Key> data_;
 };
 
+// Clase para implementar secuencias estáticas
 template<class Key> 
 class StaticSequence: public Sequence<Key> {
     public:
@@ -45,6 +49,7 @@ class StaticSequence: public Sequence<Key> {
         std::vector<Key> data_;
 };
 
+// Implementación de las funcione search para las clases DynamicSequence
 template<class Key>
 bool DynamicSequence<Key>::search(const Key& k) const {
     for (long unsigned int i = 0; i < data_.size(); i++) {
@@ -55,6 +60,7 @@ bool DynamicSequence<Key>::search(const Key& k) const {
     return false;
 }
 
+// Implementación de las funciones insert para las clases DynamicSequence
 template <class Key>
 bool DynamicSequence<Key>::insert(const Key& key) {
     if (!search(key)) {
@@ -64,6 +70,7 @@ bool DynamicSequence<Key>::insert(const Key& key) {
     return false;
 }
 
+// Implementación de las funciones isFull para StaticSequence
 template<class Key>
 bool StaticSequence<Key>::isFull() const {
     for (int i = 0; i < size_; i++) {
@@ -74,6 +81,7 @@ bool StaticSequence<Key>::isFull() const {
     return true;
 }
 
+// Implementación de las funciones search para StaticSequence
 template<class Key>
 bool StaticSequence<Key>::search(const Key& k) const {
     for ( int i = 0; i < size_; i++ ) {
@@ -84,10 +92,11 @@ bool StaticSequence<Key>::search(const Key& k) const {
     return false;
 }
 
+// Implementación de las funciones insert para StaticSequence
 template<class Key>
 bool StaticSequence<Key>::insert(const Key& k) {
     if(isFull()) {
-        std::cout << "The array is full" << std::endl;
+        std::cout << "El array esta lleno" << std::endl;
         return false;
     }
     for (int i = 0; i < size_; i++) {

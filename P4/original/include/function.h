@@ -33,8 +33,8 @@ public:
     SumDispersion(unsigned int size) : DispersionFunction<Key>(size) {}
     unsigned operator()(const Key& key) const override {
         unsigned sum = 0;
-        for (const auto& val : key) {
-            sum += static_cast<unsigned>(val);
+        for (unsigned i = 0; i < sizeof(key); i++) {
+            sum += reinterpret_cast<const unsigned char*>(&key)[i];
         }
         return sum % this->getTableSize();
     }

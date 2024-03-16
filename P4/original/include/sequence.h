@@ -12,7 +12,9 @@ class Sequence {
     public: 
         virtual bool search(const Key& k) const = 0;
         virtual bool insert(const Key& k) = 0;
-        virtual ~Sequence() {}
+        virtual ~Sequence() {};
+        virtual unsigned getSize() const = 0;
+        virtual const Key* getData() const = 0;
 };
 
 // Clase para implementar secuencias dinámicas
@@ -23,7 +25,9 @@ class DynamicSequence: public Sequence<Key> {
         ~DynamicSequence() {}
         bool search(const Key& k) const;
         bool insert(const Key& k);
-        std::vector<Key> getData() const {return data_;}
+        unsigned getSize() const override { return data_.size(); }
+        const Key* getData() const override { return data_.data(); }
+        
     private:
         std::vector<Key> data_;
 };
@@ -42,8 +46,8 @@ class StaticSequence: public Sequence<Key> {
         bool isFull() const;
         bool search(const Key& k) const;
         bool insert(const Key& k);
-        unsigned getSize() {return size_;}
-        Key* getData() {return data_.data();}
+        unsigned getSize() const override { return size_; }
+        const Key* getData() const override { return data_.data(); }
     private:
         int size_;
         std::vector<Key> data_;

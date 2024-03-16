@@ -5,7 +5,7 @@
 
 // Clase para implementar la tabla hash
 template <class Key, class Container = StaticSequence<Key>>
-class HashTable : public Sequence <Key> {
+class HashTable {
   public:
     HashTable (unsigned int tsz, DispersionFunction<Key>& fd, ExplorationFunction<Key>& fe, unsigned bsz)
       : tableSize_(tsz), fd_(fd), fe_(fe), blockSize_(bsz) {
@@ -70,15 +70,18 @@ template <class Key>
 class HashTable <Key, DynamicSequence<Key>> {
   public:
     HashTable (unsigned tsz, DispersionFunction<Key>& fd) : tableSize_(tsz), fd_(fd) { 
-      hashTable_ = new DynamicSequence<Key>*[tableSize_];
-    }
+        hashTable_ = new Sequence<Key>*[tableSize_];
+        for (unsigned int i = 0; i < tableSize_; i++) {
+          hashTable_[i] = new DynamicSequence<Key>{};
+        }
+      }
     bool search(const Key& key) const;
     bool insert(const Key& key);
     void display() const;
   private:
-    DispersionFunction<Key> fd_;
     unsigned int tableSize_;
-    Sequence<Key>* hashTable_;
+    DispersionFunction<Key>& fd_;
+    Sequence<Key>** hashTable_;
 };
 
 // Implementación de las funcion insertar para la clase HashTable con secuencias dinámicas

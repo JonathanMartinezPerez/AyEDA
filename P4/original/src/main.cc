@@ -11,10 +11,5 @@ int main(int argc, char* argv[]) {
     Options params(argc, argv);
     params.RunSimulation();
 
-    std::cout << "insert valores en la tabla:" << std::endl;
-    
-
-
-
     return 0;
 }

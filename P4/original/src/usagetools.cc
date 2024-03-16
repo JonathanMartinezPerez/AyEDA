@@ -8,6 +8,7 @@
 DispersionFunction<NIF>* dispersionFunctionInstance;
 ExplorationFunction<NIF>* explorationFunctionInstance;
 
+// Constructor de la clase Options para parsear los args
 Options::Options(int argc, char* argv[]) {
   bool hasTableSize = false;
   bool hasDispersionFunction = false;
@@ -123,6 +124,7 @@ void Options::RunSimulation() {
   Menu();
 }
 
+// AYUDA
 void Options::Usage() const{
     std::cout << "Uso: ./hashTable -ts <s> -fd <f> -hash <open|close> -bs <s> -fe <f>\n";
     std::cout << "-ts <s> : tamaño de la tabla\n";
@@ -132,6 +134,7 @@ void Options::Usage() const{
     std::cout << "-fe <f> : función de exploración para dispersión cerrada -> linear, quadratic o double\n";
 }
 
+// Implementación de la función Menu
 void Options::Menu() {
     char option;
     do {
@@ -139,7 +142,8 @@ void Options::Menu() {
         std::cout << "1. Insertar valor en la tabla\n";
         std::cout << "2. Buscar valor en la tabla\n";
         std::cout << "3. Mostrar tabla\n";
-        std::cout << "4. Salir del menú\n";
+        std::cout << "4. Insertar un numero o varios ramdom\n";
+        std::cout << "5. Salir del menú\n";
 
         std::cout << "Seleccione una opción: ";
         std::cin >> option;
@@ -178,21 +182,40 @@ void Options::Menu() {
                         std::cout << "El NIF " << nif << " no está en la tabla.\n";
                     }
                 }
-                break; // Añadido el break para evitar la ejecución de los casos siguientes
+                break;
             case '3':
                 if (this->hashType == "open") {
                     hashTable_d->display();
                 } else {
                     hashTable->display();
                 }
-                break; // Añadido el break para evitar la ejecución de los casos siguientes
+                break;
             case '4':
+                if (this->hashType == "open") {
+                    int n;
+                    std::cout << "Introduzca el número de NIFs ramdom a insertar: ";
+                    std::cin >> n;
+                    for (int i = 0; i < n; i++) {
+                        NIF nif;
+                        hashTable_d->insert(nif);
+                    }
+                } else {
+                    int n;
+                    std::cout << "Introduzca el número de NIFs ramdom a insertar: ";
+                    std::cin >> n;
+                    for (int i = 0; i < n; i++) {
+                        NIF nif;
+                        hashTable->insert(nif);
+                    }
+                }
+                break;
+            case '5':
                 std::cout << "Saliendo del menú...\n";
                 break;
             default:
                 std::cout << "Opción no válida. Por favor, seleccione una opción válida.\n";
                 break;
         }
-    } while(option != '4');
+    } while(option != '5');
 }
 

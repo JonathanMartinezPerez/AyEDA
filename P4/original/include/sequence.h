@@ -78,7 +78,7 @@ bool DynamicSequence<Key>::insert(const Key& key) {
 template<class Key>
 bool StaticSequence<Key>::isFull() const {
     for (int i = 0; i < size_; i++) {
-        if (data_[i] == 0) {
+        if (data_[i] == Key()) {
             return false;
         }
     }
@@ -104,7 +104,7 @@ bool StaticSequence<Key>::insert(const Key& k) {
         return false;
     }
     for (int i = 0; i < size_; i++) {
-        if (data_[i] == 0) {
+        if (data_[i] == Key()) {
             data_[i] = k;
             return true;
         }

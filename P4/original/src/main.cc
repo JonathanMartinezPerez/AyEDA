@@ -1,50 +1,45 @@
-//main.cc
-#include "../include/sequence.h"
-#include "../include/function.h"
-#include "../include/exploration.h"
-#include "../include/hash.h"
-
 #include <iostream>
-
-#include <iostream>
-#include <string> // Incluir la cabecera para utilizar std::string
-#include "../include/sequence.h"
-#include "../include/function.h"
-#include "../include/exploration.h"
-#include "../include/hash.h"
-#include "../include/nif.h"
+#include "nif.h" // Incluir el archivo de encabezado para el tipo de dato NIF
+#include "sequence.h"
+#include "function.h"
+#include "exploration.h"
+#include "hash.h"
 
 int main() {
-    SumDispersion<int> disp(100);
-    QuadraticExploration<int> expl;
-    HashTable<int, StaticSequence<int>> tabla(100, disp, expl, 3);
-    //HashTable<int, DynamicSequence<int>> tabla2(100, disp);
-    
-    std::string input; // Cambiar el tipo de input a std::string
-    
-    while (std::cin >> input) {
-        if (input == "q") { // Comparar con un string en lugar de un carácter
-            break;
-        }
-        // Convertir el string a un entero utilizando std::stoi
-        int value = std::stoi(input);
-        std::cout << tabla.insert(value) << std::endl;
-        //std::cout << tabla2.insert(input) << std::endl;
-    }   
+    // Crear un objeto de dispersión y una función de exploración
+    ModuleDispersion<NIF> disp(100);
+    LinearExploration<NIF> expl;
 
-    std::cout << "¿Qué números quieres buscar?" << std::endl;
-    while (std::cin >> input) {
-        if (input == "q") { // Comparar con un string en lugar de un carácter
+    // Crear la tabla hash con el tipo de dato NIF y una secuencia estática
+    HashTable<NIF, StaticSequence<NIF>> tabla(100, disp, expl, 3);
+
+    // Variables para la entrada de usuario
+    long int input;
+    char input_char;
+
+    // Bucle para insertar valores en la tabla hash
+    std::cout << "Inserte valores NIF (o 'q' para salir):" << std::endl;
+    while (std::cin >> input >> input_char) {
+        if (input_char == 'q') {
             break;
         }
-        // Convertir el string a un entero utilizando std::stoi
-        int value = std::stoi(input);
-        std::cout << tabla.search(value) << std::endl;
-        //std::cout << tabla2.search(input) << std::endl;
+        NIF value(input);
+        std::cout << tabla.insert(value) << std::endl;
     }
+
+    // Bucle para buscar valores en la tabla hash
+    std::cout << "Ingrese valores NIF para buscar (o 'q' para salir):" << std::endl;
+    while (std::cin >> input >> input_char) {
+        if (input_char == 'q') {
+            break;
+        }
+        NIF value(input);
+        std::cout << tabla.search(value) << std::endl;
+    }
+
+    // Mostrar contenido de la tabla hash
+    std::cout << "Contenido de la tabla hash:" << std::endl;
     tabla.display();
-    //tabla2.display();
 
     return 0;
 }
-

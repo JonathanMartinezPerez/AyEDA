@@ -16,5 +16,5 @@ class NIF {
     bool operator>=(const NIF& other) const { return !(*this < other); }
     operator long() const { return value_; }
   private:
-    int value_; // DNI
+    long int value_; // DNI
 };

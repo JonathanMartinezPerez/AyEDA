@@ -1,7 +1,7 @@
-build/main.o: src/main.cc src/../include/sequence.h \
- src/../include/function.h src/../include/exploration.h \
- src/../include/hash.h
-src/../include/sequence.h:
-src/../include/function.h:
-src/../include/exploration.h:
-src/../include/hash.h:
+build/main.o: src/main.cc include/nif.h include/sequence.h \
+ include/function.h include/exploration.h include/hash.h
+include/nif.h:
+include/sequence.h:
+include/function.h:
+include/exploration.h:
+include/hash.h:

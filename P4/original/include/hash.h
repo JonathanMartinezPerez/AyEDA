@@ -30,7 +30,7 @@ template <class Key, class Container>
 bool HashTable<Key, Container>::insert(const Key& key) {
   int position{0};
   for (unsigned int i = 0; i < tableSize_; i++) {
-    position += (fe_(key, i) + fd_(key));
+    position = (fe_(key, i) + fd_(key));
     position = position % tableSize_;
     if (hashTable_[position]->insert(key) == true) {
       return true;
@@ -44,7 +44,7 @@ template <class Key, class Container>
 bool HashTable<Key, Container>::search(const Key& key) const {
   int position{0};
   for (unsigned int i = 0; i < tableSize_; i++) {
-    position += (fe_(key, i) + fd_(key));
+    position = (fe_(key, i) + fd_(key));
     position = position % tableSize_;
     if (hashTable_[position]->search(key) == true) {
       return true;

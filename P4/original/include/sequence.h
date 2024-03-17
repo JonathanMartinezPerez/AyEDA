@@ -60,9 +60,9 @@ class StaticSequence: public Sequence<Key> {
 // Implementación de las funcione search para las clases DynamicSequence
 template<class Key>
 bool DynamicSequence<Key>::search(const Key& k) const {
-    for (long unsigned int i = 0; i < data_.size(); i++) {
+    for (unsigned i = 0; i < data_.size(); i++) {
         if (data_[i] == k) {
-        return true;
+            return true;
         }
     }
     return false;
@@ -71,11 +71,13 @@ bool DynamicSequence<Key>::search(const Key& k) const {
 // Implementación de las funciones insert para las clases DynamicSequence
 template <class Key>
 bool DynamicSequence<Key>::insert(const Key& key) {
-    if (!search(key)) {
-        data_.push_back(key);
-        return true;
+    if (search(key)) {
+        std::cout << "El elemento "<< key <<" ya está en la secuencia" << std::endl;
+        return false;
     }
-    return false;
+    data_.push_back(key);
+    return true;
+
 }
 
 // Implementación de las funciones isFull para StaticSequence
@@ -106,11 +108,16 @@ bool StaticSequence<Key>::insert(const Key& k) {
     if(isFull()) {
         return false;
     }
-    for (int i = 0; i < size_; i++) {
-        if (data_[i] == Key(0)) {
-            data_[i] = k;
-            return true;
-        }
+    if (search(k)) {
+        std::cout << "El elemento "<< k <<" ya está en la secuencia" << std::endl;
+        return false;
     }
+        for (int i = 0; i < size_; i++) {
+            if (data_[i] == Key(0)) {
+                data_[i] = k;
+                return true;
+            }
+        }
+    
     return false;
 }

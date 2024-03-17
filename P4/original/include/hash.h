@@ -1,4 +1,5 @@
-//hash.h
+//Autor: Jonathan Martínez Pérez
+//Fichero: hash.h
 #pragma once
 #include "sequence.h"
 #include "function.h"

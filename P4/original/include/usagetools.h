@@ -1,4 +1,5 @@
-//usagetools.h
+//Autor: Jonathan Martínez Pérez
+//Fichero: usagetools.h
 #pragma once
 #include <iostream>
 #include <string>

@@ -1,3 +1,5 @@
+//Autor: Jonathan Martínez Pérez
+//Fichero: main.cc
 #include <iostream>
 #include "nif.h"
 #include "sequence.h"

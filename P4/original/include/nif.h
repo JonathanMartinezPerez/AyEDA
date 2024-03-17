@@ -1,4 +1,5 @@
-//nif.h
+//Autor: Jonathan Martínez Pérez
+//Fichero: nif.h
 #pragma once
 
 #include <iostream>

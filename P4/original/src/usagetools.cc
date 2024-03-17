@@ -1,4 +1,5 @@
-//usagetools.cc
+//Autor: Jonathan Martínez Pérez
+//Fichero: usagetools.cc
 #include <iostream>
 #include <string>
 #include <stdexcept>

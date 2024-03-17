@@ -1,4 +1,5 @@
-//exploration.h
+//Autor: Jonathan Martínez Pérez
+//Fichero: exploration.h
 #pragma once
 #include <iostream>
 #include <cstdlib>

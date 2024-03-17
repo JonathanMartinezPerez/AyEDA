@@ -1,4 +1,5 @@
-//function.h
+//Autor: Jonathan Martínez Pérez
+//Fichero: function.h
 #pragma once
 
 #include <iostream>

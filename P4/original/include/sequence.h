@@ -1,4 +1,5 @@
-//sequence.h
+//Autor: Jonathan Martínez Pérez
+//Fichero: sequence.h
 #pragma once
 
 #include <iostream>

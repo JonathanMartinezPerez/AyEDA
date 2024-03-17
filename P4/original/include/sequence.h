@@ -13,6 +13,8 @@ class Sequence {
         virtual bool search(const Key& k) const = 0;
         virtual bool insert(const Key& k) = 0;
         virtual ~Sequence() {};
+        virtual void build(unsigned sz) = 0;
+        virtual bool isFull() const = 0;
         virtual unsigned getSize() const = 0;
         virtual const Key* getData() const = 0;
 };
@@ -25,6 +27,8 @@ class DynamicSequence: public Sequence<Key> {
         ~DynamicSequence() {}
         bool search(const Key& k) const;
         bool insert(const Key& k);
+        void build(unsigned sz) { sz++; }
+        bool isFull() const {return false;}
         unsigned getSize() const override { return data_.size(); }
         const Key* getData() const override { return data_.data(); }
         
@@ -36,20 +40,14 @@ class DynamicSequence: public Sequence<Key> {
 template<class Key> 
 class StaticSequence: public Sequence<Key> {
     public:
-        StaticSequence(unsigned size) {
-            size_ = size;
-            data_ = std::vector<Key>(size);
-            //igualar todos los elementos a 0
-            for (int i = 0; i < size_; i++) {
-                data_[i] = 0;
-            }
-        }
+        StaticSequence() {}
         ~StaticSequence() {
             data_.clear();
         }
         bool isFull() const;
         bool search(const Key& k) const;
         bool insert(const Key& k);
+        void build(unsigned sz);
         unsigned getSize() const override { return size_; }
         const Key* getData() const override { return data_.data(); }
     private:
@@ -78,6 +76,16 @@ bool DynamicSequence<Key>::insert(const Key& key) {
     data_.push_back(key);
     return true;
 
+}
+
+template<class Key>
+void StaticSequence<Key>::build(unsigned sz) {
+    size_ = sz;
+    data_ = std::vector<Key>(sz);
+    //igualar todos los elementos a 0
+    for (unsigned i = 0; i < sz; i++) {
+        data_[i] = 0;
+    }
 }
 
 // Implementación de las funciones isFull para StaticSequence

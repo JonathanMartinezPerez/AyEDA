@@ -93,7 +93,8 @@ void Options::RunSimulation() {
       Usage();
       throw std::invalid_argument("Función de dispersión no válida.");
     }
-    hashTable_d = new HashTable<NIF, DynamicSequence<NIF>>(this->tableSize, *dispersionFunctionInstance);
+    explorationFunctionInstance = new LinearExploration<NIF>;
+    hashTable_d = new HashTable<NIF, DynamicSequence<NIF>>(this->tableSize, *dispersionFunctionInstance, *explorationFunctionInstance, -1);
   } else if (this->hashType == "close"){
     if (this->dispersionFunction == "mod") {
       dispersionFunctionInstance = new ModuleDispersion<NIF>(this->tableSize);

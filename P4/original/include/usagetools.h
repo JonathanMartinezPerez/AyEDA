@@ -10,6 +10,7 @@
 #include "exploration.h"
 #include "hash.h"
 
+// Clase para parsear los argumentos de entrada y ejecutar la simulación
 class Options {
 public:
     Options(int argc, char* argv[]);

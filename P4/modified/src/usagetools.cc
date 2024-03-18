@@ -16,6 +16,7 @@ Options::Options(int argc, char* argv[]) {
   bool hasHashType = false;
   bool hasBlockSize = false;
   bool hasExplorationFunction = false;
+  bool hasNum = false;
 
   if (argc < 4) {
     std::cerr << "Faltan argumentos obligatorios.\n";
@@ -69,6 +70,12 @@ Options::Options(int argc, char* argv[]) {
       } else {
         throw std::invalid_argument("Falta el argumento para la opción -fe");
       }
+    } else if(arg == "-num" && hasHashType == true){
+      if (i + 1 < argc) {
+        this->num = std::stoi(argv[i + 1]);
+        hasNum = true;
+        ++i;
+      }
     } else {
       throw std::invalid_argument("Opción desconocida");
     }
@@ -76,7 +83,7 @@ Options::Options(int argc, char* argv[]) {
   if (!hasTableSize || !hasDispersionFunction || !hasHashType) {
     throw std::invalid_argument("Faltan argumentos obligatorios");
   }
-  if (this->hashType == "open" && (hasBlockSize || hasExplorationFunction)) {
+  if (this->hashType == "open" && (hasBlockSize || hasExplorationFunction || hasNum)) {
     throw std::invalid_argument("Faltan argumentos obligatorios");
   }
 }
@@ -140,6 +147,7 @@ void Options::Usage() const{
 void Options::Menu() {
     char option;
     do {
+        unsigned insertAttempts = hashTable->getcontador();
         std::cout << "Menú:\n";
         std::cout << "1. Insertar valor en la tabla\n";
         std::cout << "2. Buscar valor en la tabla\n";
@@ -162,6 +170,7 @@ void Options::Menu() {
                     std::cout << "Introduzca el NIF a insertar: ";
                     std::cin >> nif;
                     hashTable->insert(nif);
+                    std::cout << "Número de usos de exploracion: " << insertAttempts << std::endl;
                 }
                 break;
             case '2':

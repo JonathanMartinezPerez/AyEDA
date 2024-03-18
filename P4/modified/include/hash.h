@@ -19,12 +19,14 @@ class HashTable {
     bool search(const Key& key) const;
     bool insert(const Key& key);
     void display() const;
+    unsigned getcontador() const {return contador_;}
   private:
     unsigned int tableSize_;
     DispersionFunction<Key>& fd_;
     ExplorationFunction<Key>& fe_;  
     unsigned int blockSize_;
     Container* hashTable_;
+    unsigned contador_ = 0;
 };
 
 // Implementación de las funcion insertar para la clase HashTable
@@ -42,6 +44,7 @@ bool HashTable<Key, Container>::insert(const Key& key) {
       } else {
         unsigned position = (fd_(key) + fe_(key, iteration));
         position = position % tableSize_;
+        contador_++;
         if (hashTable_[position].insert(key)) {
           return true;
         }

@@ -18,6 +18,7 @@ public:
     void RunSimulation();
     void Usage() const;
     void Menu();
+    unsigned getnum() const{return num;};
 private:
     unsigned int tableSize;
     std::string dispersionFunction;
@@ -26,6 +27,7 @@ private:
     std::string explorationFunction;
     HashTable<NIF>* hashTable;
     HashTable<NIF, DynamicSequence<NIF>>* hashTable_d;
+    unsigned int num;
 };
 
 extern DispersionFunction<NIF>* dispersionFunctionInstance;

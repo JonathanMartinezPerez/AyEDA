@@ -42,7 +42,7 @@ int main() {
     }
 
     std::cout << "Seleccione el algoritmo de ordenación:" << std::endl;
-    std::cout << "1. Inserción" << std::endl;
+    std::cout << "1. Insertion" << std::endl;
     int choice_algo;
     std::cin >> choice_algo;
 

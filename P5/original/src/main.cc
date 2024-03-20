@@ -2,6 +2,7 @@
 #include <vector>
 #include <random>
 #include "insertion.h"
+#include "selection.h"
 
 // Función para generar valores aleatorios
 std::vector<long> generateRandomSequence(int size) {
@@ -43,6 +44,7 @@ int main() {
 
     std::cout << "Seleccione el algoritmo de ordenación:" << std::endl;
     std::cout << "1. Insertion" << std::endl;
+    std::cout << "2. Selection" << std::endl;
     int choice_algo;
     std::cin >> choice_algo;
 
@@ -52,6 +54,9 @@ int main() {
         case 1:
             sorter = new Insertion<long>(sequence);
             break;
+        case 2:
+            sorter = new Selection<long>(sequence);
+            break;
         default:
             std::cout << "Opción no válida." << std::endl;
             return 1;
@@ -59,9 +64,6 @@ int main() {
 
     std::cout << "Secuencia ordenada:" << std::endl;
     sorter->Sort();
-    for (long num : sequence) {
-        std::cout << num << " ";
-    }
     std::cout << std::endl;
 
     return 0;

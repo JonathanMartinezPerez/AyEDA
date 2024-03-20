@@ -28,5 +28,11 @@ void Insertion<Key>::Sort() {
             --j;
         }
         this->seq[j + 1] = key;
+
+        std::cout << "Iteración " << i - 1 << ": ";
+        for (int num : this->seq) {
+            std::cout << num << " ";
+        }
+        std::cout << std::endl;
     }
 }

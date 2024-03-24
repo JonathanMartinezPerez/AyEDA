@@ -13,7 +13,7 @@
 template<class Key>
 class SortMethod {
     public:
-        SortMethod(StaticSequence<Key> arr) : seq(arr), size(arr.size()) {}
+        SortMethod() {}
         virtual ~SortMethod() = default;
         virtual void Sort() = 0;    
     protected:

@@ -22,18 +22,18 @@ int main() {
 
     // Mostrar los datos generados
     std::cout << "Datos generados aleatoriamente:" << std::endl;
-    const NIF* data = sequence.getData();
+    const std::vector<NIF>& data = sequence.getData();
     for (unsigned i = 0; i < sequence.getSize(); ++i) {
         std::cout << data[i] << std::endl;
     }
 
     // Ordenar los datos usando el algoritmo de inserción
-    Insertion<NIF> insertion_sort(sequence.getData());
-    insertion_sort.Sort();
+    Insertion<NIF> insertion(sequence.getData());
+    insertion.Sort();
 
     // Mostrar los datos ordenados
     std::cout << "Datos ordenados:" << std::endl;
-    const NIF* sorted_data = sequence.getData();
+    const std::vector<NIF>& sorted_data = sequence.getData();
     for (unsigned i = 0; i < sequence.getSize(); ++i) {
         std::cout << sorted_data[i] << std::endl;
     }

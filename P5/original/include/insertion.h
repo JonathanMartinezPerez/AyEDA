@@ -13,7 +13,7 @@
 template<class Key>
 class Insertion : public SortMethod<Key> {
     public:
-        Insertion(StaticSequence<Key> arr) : seq(arr) {}
+        Insertion(std::vector<Key>& seq) : SortMethod<Key>(seq) {}
         ~Insertion() = default;
         void Sort() override;
 };

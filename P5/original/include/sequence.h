@@ -16,7 +16,7 @@ class Sequence {
         virtual bool insert(const Key& k) = 0;
         virtual bool isFull() const = 0;
         virtual unsigned getSize() const = 0;
-        virtual const Key* getData() const = 0;
+        virtual const std::vector<Key>& getData() const = 0;
         virtual Key operator[](const Position&) const = 0;
 };
 
@@ -31,7 +31,7 @@ class StaticSequence: public Sequence<Key> {
         bool isFull() const;
         bool insert(const Key& k);
         unsigned getSize() const override { return size_; }
-        const Key* getData() const override { return data_.data(); }
+        const std::vector<Key>& getData() const override { return data_; }
         Key operator[](const Position&) const override;
     private:
         int size_;

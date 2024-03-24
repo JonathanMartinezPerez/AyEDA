@@ -1,5 +1,5 @@
-build/main.o: src/main.cc include/insertion.h include/sortmethod.h \
- include/selection.h
-include/insertion.h:
+build/main.o: src/main.cc include/sequence.h include/sortmethod.h \
+ include/nif.h
+include/sequence.h:
 include/sortmethod.h:
-include/selection.h:
+include/nif.h:

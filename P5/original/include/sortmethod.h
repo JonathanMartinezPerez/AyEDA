@@ -7,11 +7,13 @@
 #include <algorithm>
 #include <random>
 
+#include "sequence.h"
+
 // Clase base abstracta para los métodos de ordenación
 template<class Key>
 class SortMethod {
     public:
-        SortMethod(std::vector<Key>& arr) : seq(arr), size(arr.size()) {}
+        SortMethod(StaticSequence<Key> arr) : seq(arr), size(arr.size()) {}
         virtual ~SortMethod() = default;
         virtual void Sort() = 0;    
     protected:

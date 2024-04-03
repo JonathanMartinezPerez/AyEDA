@@ -3,18 +3,36 @@
 #include <random>
 
 #include "sequence.h"
+#include "sortmethod.h"
+#include "ordenation.h"
 
 
 int main() {
-    StaticSequence<int> sequence(10);
-    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+    StaticSequence<int>* sequence;
+    sequence = new StaticSequence<int>(10);
+    
+    std::vector<int> values = {1, 3, 5, 6, 10, 4, 3, 7, 8, 9};
     for (auto value : values) {
-        sequence.insert(value);
+        sequence->insert(value);
     }
     std::cout << "Before sorting: ";
-    for (unsigned i = 0; i < sequence.getData().size(); i++) {
-        std::cout << sequence[i] << " ";
+    for (int i = 0; i < sequence->getSize(); i++) {
+        std::cout << (sequence->getData()[i]) << " ";
     }
     std::cout << std::endl;
+
+    Heap<int> selection(sequence);
+
+    selection.Sort();
+
+    std::cout << "After sorting: ";
+    for (int i = 0; i < sequence->getSize(); i++) {
+        std::cout << (sequence->getData()[i]) << " ";
+    }
+    std::cout << std::endl;
+
+    delete sequence;
+
     return 0;
 }

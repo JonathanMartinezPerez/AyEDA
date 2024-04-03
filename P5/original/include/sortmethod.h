@@ -10,8 +10,13 @@
 #include "sequence.h"
 
 // Clase base abstracta para los métodos de ordenación
-template <class key>
+template <class Key>
 class SortMethod {
- public:
-  virtual void Sort() const = 0;
+  public:
+    SortMethod (StaticSequence<Key>* sequence) : sequence_(sequence) {}
+    virtual void Sort() const = 0;
+  
+  protected:
+    StaticSequence<Key>* sequence_;
+
 };

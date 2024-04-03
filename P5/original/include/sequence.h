@@ -17,6 +17,7 @@ public:
     virtual Key operator[](const Position&) const = 0;
     virtual int getSize() const = 0;
     virtual const std::vector<Key>& getData() const = 0;
+    virtual std::vector<Key>& getData() = 0;
 };
 
 // Clase para implementar secuencias estáticas
@@ -31,7 +32,10 @@ public:
     bool isFull() const;
     bool insert(const Key& k);
     Key operator[](const Position&) const override;
+
+    std::vector<Key>& getData() override { return data_; }
     const std::vector<Key>& getData() const override { return data_; }
+
     int getSize() const override { return size_; }
 private:
     int size_;

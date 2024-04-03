@@ -10,13 +10,8 @@
 #include "sequence.h"
 
 // Clase base abstracta para los métodos de ordenación
-template<class Key>
+template <class key>
 class SortMethod {
-    public:
-        SortMethod() {}
-        virtual ~SortMethod() = default;
-        virtual void Sort() = 0;    
-    protected:
-        std::vector<Key>& seq;
-        unsigned size;
+ public:
+  virtual void Sort() const = 0;
 };

@@ -3,40 +3,18 @@
 #include <random>
 
 #include "sequence.h"
-#include "sortmethod.h"
-#include "nif.h"
+
 
 int main() {
-    // Tamaño del vector
-    const int size = 10;
-
-    // Crear una instancia de StaticSequence<NIF>
-    StaticSequence<NIF> sequence;
-    
-    // Generar datos aleatorios de tipo NIF y insertarlos en la secuencia
-    std::cout << "Generando NIFs aleatorios..." << std::endl;
-    for (int i = 0; i < size; ++i) {
-        NIF random_nif;
-        sequence.insert(random_nif);
+    StaticSequence<int> sequence(10);
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    for (auto value : values) {
+        sequence.insert(value);
     }
-
-    // Mostrar los datos generados
-    std::cout << "Datos generados aleatoriamente:" << std::endl;
-    const std::vector<NIF>& data = sequence.getData();
-    for (unsigned i = 0; i < sequence.getSize(); ++i) {
-        std::cout << data[i] << std::endl;
+    std::cout << "Before sorting: ";
+    for (unsigned i = 0; i < sequence.getData().size(); i++) {
+        std::cout << sequence[i] << " ";
     }
-
-    // Ordenar los datos usando el algoritmo de inserción
-    Insertion<NIF> insertion(sequence.getData());
-    insertion.Sort();
-
-    // Mostrar los datos ordenados
-    std::cout << "Datos ordenados:" << std::endl;
-    const std::vector<NIF>& sorted_data = sequence.getData();
-    for (unsigned i = 0; i < sequence.getSize(); ++i) {
-        std::cout << sorted_data[i] << std::endl;
-    }
-
+    std::cout << std::endl;
     return 0;
 }

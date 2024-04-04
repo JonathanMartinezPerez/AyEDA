@@ -6,9 +6,10 @@
 #include "sortmethod.h"
 #include "ordenation.h"
 #include "nif.h"
+#include "usagetools.h"
 
 
-int main() {
+int main(int argc, char *argv[]) {
 
     StaticSequence<NIF>* sequence;
     sequence = new StaticSequence<NIF>(10);

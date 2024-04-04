@@ -4,9 +4,11 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <fstream>
 
 #include "nif.h"
 #include "sequence.h"
+#include "ordenation.h"
 
 
 // Clase para parsear los argumentos de entrada y ejecutar la simulación

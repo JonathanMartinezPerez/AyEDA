@@ -78,8 +78,71 @@ Options::Options(int argc, char* argv[]) {
   }
 }
 
+// Implementar la simulación en funcion de las opciones que se elijan
 void Options::RunSimulation() {
-  
+  StaticSequence<NIF>* sequence;
+  sequence = new StaticSequence<NIF>(this->tableSize);
+  if (this->initsystem == "manual") {
+    std::vector<NIF> values;
+    for (unsigned i = 0; i < this->tableSize; i++) {
+      std::cout << "Introduce el valor " << i + 1 << ": ";
+      NIF value;
+      std::cin >> value;
+      values.push_back(value);
+    }
+    for (auto value : values) {
+      sequence->insert(value);
+    }
+  } else if (this->initsystem == "random") {
+    for (unsigned i = 0; i < this->tableSize; i++) {
+      NIF value;
+      sequence->insert(value);
+    }
+  } else if (this->initsystem == "file") {
+    std::ifstream file(this->filename);
+    if (!file.is_open()) {
+      std::cerr << "Error al abrir el fichero\n";
+      throw std::invalid_argument("Error al abrir el fichero");
+    }
+    NIF value;
+    while (file >> value) {
+      sequence->insert(value);
+    }
+    file.close();
+  }
+
+  std::cout << "Before sorting: ";
+  for (int i = 0; i < sequence->getSize(); i++) {
+    std::cout << (sequence->getData()[i]) << " ";
+  }
+  std::cout << std::endl;
+
+  SortMethod<NIF>* selection;
+  if (this->ordenationFunction == "quick") {
+    selection = new Quick<NIF>(sequence);
+  } else if (this->ordenationFunction == "heap") {
+    selection = new Heap<NIF>(sequence);
+  } else if (this->ordenationFunction == "selection") {
+    selection = new Selection<NIF>(sequence);
+  } else if (this->ordenationFunction == "shell") {
+    selection = new Shell<NIF>(sequence);
+  } else if (this->ordenationFunction == "radix") {
+    selection = new Radix<NIF>(sequence);
+  } else {
+    std::cerr << "Función de ordenación no válida\n";
+    throw std::invalid_argument("Función de ordenación no válida");
+  }
+
+  selection->Sort();
+
+  std::cout << "After sorting: ";
+  for (int i = 0; i < sequence->getSize(); i++) {
+    std::cout << (sequence->getData()[i]) << " ";
+  }
+  std::cout << std::endl;
+
+  delete sequence;
+
 }
 
 // AYUDA

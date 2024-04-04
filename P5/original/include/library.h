@@ -106,7 +106,7 @@ void ShellSort(std::vector<Key>& arr, int n) {
 
 template <class Key>
 void RadixSort(std::vector<Key>& arr, int n) {
-    int max = arr[0];
+    Key max = arr[0];
     for (int i = 1; i < n; i++) {
         if (arr[i] > max) {
             max = arr[i];

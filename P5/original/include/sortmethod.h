@@ -12,11 +12,10 @@
 // Clase base abstracta para los métodos de ordenación
 template <class Key>
 class SortMethod {
-  public:
-    SortMethod (StaticSequence<Key>* sequence) : sequence_(sequence) {}
-    virtual void Sort() const = 0;
-  
-  protected:
-    StaticSequence<Key>* sequence_;
+    public:
+        SortMethod (StaticSequence<Key>* sequence) : sequence_(sequence) {}
+        virtual void Sort() const = 0;
 
+    protected:
+        StaticSequence<Key>* sequence_;
 };

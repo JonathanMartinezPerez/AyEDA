@@ -25,8 +25,11 @@ template<class Key>
 class StaticSequence: public Sequence<Key> {
 public:
     StaticSequence(int size){    
-    size_= size;
-    data_.resize(size_);
+        size_= size;
+        data_.resize(size_);
+        for (int i = 0; i < size_; i++) {
+            data_[i] = Key(0);
+        }
     };
     ~StaticSequence() = default;
     bool isFull() const;

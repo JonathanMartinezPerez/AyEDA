@@ -15,7 +15,6 @@ public:
     Options(int argc, char* argv[]);
     void RunSimulation();
     void Usage() const;
-    void Menu();
 private:
     unsigned tableSize;
     std::string ordenationFunction;

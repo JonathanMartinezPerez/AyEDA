@@ -23,6 +23,7 @@ Options::Options(int argc, char* argv[]) {
         hasTableSize = true;
         ++i;
       } else {
+        Usage();
         throw std::invalid_argument("Falta el argumento para la opción -size");
       }
     } else if (arg == "-ord") {
@@ -31,6 +32,7 @@ Options::Options(int argc, char* argv[]) {
         hasOrdenationFunction = true;
         ++i;
       } else {
+        Usage();
         throw std::invalid_argument("Falta el argumento para la opción -ord");
       }
     } else if(arg == "-init") {
@@ -43,11 +45,13 @@ Options::Options(int argc, char* argv[]) {
             hasFile = true;
             i++;
           } else {
+            Usage();
             throw std::invalid_argument("Falta el argumento para la opción -init");
           }
         }
         i++;
       } else {
+        Usage();
         throw std::invalid_argument("Falta el argumento para la opción -hash");
       }
     } else if (arg == "-trace") {
@@ -56,28 +60,26 @@ Options::Options(int argc, char* argv[]) {
         hasTraces = true;
         ++i;
       } else {
+        Usage();
         throw std::invalid_argument("Falta el argumento para la opción -bs");
       }
     } else {
+      Usage();
       throw std::invalid_argument("Opción desconocida");
     }
   }
   if (!hasTableSize || !hasInitSystem || !hasOrdenationFunction || !hasTraces) {
+    Usage();
     throw std::invalid_argument("Faltan argumentos obligatorios");
   }
   if (this->initsystem == "file" && ( hasFile == false)) {
+    Usage();
     throw std::invalid_argument("Faltan argumentos obligatorios");
   }
 }
 
 void Options::RunSimulation() {
-  std::cout << "Tamaño de la tabla: " << this->tableSize << std::endl;
-  std::cout << "Función de ordenación: " << this->ordenationFunction << std::endl;
-  std::cout << "Sistema de inicialización: " << this->initsystem << std::endl;
-  if (this->initsystem == "file") {
-    std::cout << "Nombre del fichero: " << this->filename << std::endl;
-  }
-  std::cout << "Traces: " << this->traces << std::endl;
+  
 }
 
 // AYUDA
@@ -101,30 +103,4 @@ void Options::Usage() const{
     std::cout << "  ./main -size 100 -ord quicksort -init file init.txt -trace y\n";
 }
 
-// Implementación de la función Menu
-void Options::Menu() {
-    char option;
-    do {
-        std::cout << "Menú:\n";
-        std::cout << "1. Insertar valor en la tabla\n";
-        std::cout << "2. Buscar valor en la tabla\n";
-        std::cout << "3. Mostrar tabla\n";
-        std::cout << "4. Insertar un numero o varios ramdom\n";
-        std::cout << "5. Salir del menú\n";
-
-        std::cout << "Seleccione una opción: ";
-        std::cin >> option;
-
-        switch(option) {
-            case '1':
-                break;
-            case '5':
-                std::cout << "Saliendo del menú...\n";
-                break;
-            default:
-                std::cout << "Opción no válida. Por favor, seleccione una opción válida.\n";
-                break;
-        }
-    } while(option != '5');
-}
 

@@ -1,3 +1,5 @@
+//Autor: Jonathan Martínez Pérez
+//Fichero: library.h
 #pragma once
 
 #include <iostream>
@@ -77,6 +79,55 @@ void HeapSort(std::vector<Key>& arr, int n) {
     for (int i = n; i > 1; i--) {
         std::swap(arr[1], arr[i]);
         heapify(1, arr, i - 1);
+    }
+}
+
+template <class Key>
+void deltasort(int delta, std::vector<Key>& arr, int n) {
+    for (int i = delta; i < n; i++) {
+        Key temp = arr[i];
+        int j = i;
+        while (j >= delta && arr[j - delta] > temp) {
+            arr[j] = arr[j - delta];
+            j -= delta;
+        }
+        arr[j] = temp;
+    }
+}
+
+template <class Key>
+void ShellSort(std::vector<Key>& arr, int n) {
+    int delta = n;
+    while (delta > 1) {
+        delta = delta / 2;
+        deltasort(delta, arr, n);
+    }
+}
+
+template <class Key>
+void RadixSort(std::vector<Key>& arr, int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    for (int exp = 1; max / exp > 0; exp *= 10) {
+        std::vector<Key> output(n);
+        std::vector<int> count(10, 0);
+        for (int i = 0; i < n; i++) {
+            count[(arr[i] / exp) % 10]++;
+        }
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+            count[(arr[i] / exp) % 10]--;
+        }
+        for (int i = 0; i < n; i++) {
+            arr[i] = output[i];
+        }
     }
 }
 

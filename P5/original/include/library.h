@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
 extern bool wantTrace;
 
@@ -74,29 +75,24 @@ void QuickSort(std::vector<Key>& arr, int low, int high) {
     }
 }
 
-// Implementación de la función heapify (para HeapSort)
 template <class Key>
 void heapify(int i, std::vector<Key>& arr, int n) {
     int largest = i;
     int left = 2 * i + 1;
     int right = 2 * i + 2;
+    
+    // Compara con el nodo actual en lugar de solo el hijo izquierdo o derecho
     if (left < n && arr[left] > arr[largest]) {
         largest = left;
     }
     if (right < n && arr[right] > arr[largest]) {
         largest = right;
     }
-    if (wantTrace) {
-        std::cout << "m=" << largest << " ";
-        for (int k = 0; k < n; ++k) {
-            if (k == i) std::cout << " i=" << i << " ";
-            std::cout << arr[k] << " ";
-        }
-        std::cout << std::endl;
-    }
+    
     if (largest != i) {
         std::swap(arr[i], arr[largest]);
-    
+        // Llama recursivamente a heapify para el subárbol afectado
+        heapify(largest, arr, n); 
     }
 }
 
@@ -109,6 +105,13 @@ void HeapSort(std::vector<Key>& arr, int n) {
     for (int i = n - 1; i > 0; i--) {
         std::swap(arr[0], arr[i]);
         heapify(0, arr, i);
+        if (wantTrace) {
+            std::cout << std::setw(5) << std::right;
+            for (int k = 0; k < n; ++k) {
+                std::cout << "| " << std::setw(2) << arr[k] << " ";
+            }
+            std::cout << std::endl;
+        }
     }
 }
 
@@ -129,25 +132,25 @@ void deltasort(int delta, std::vector<Key>& arr, int n) {
 // Implementación de la función ShellSort
 template <class Key>
 void ShellSort(std::vector<Key>& arr, int n) {
-    int delta = n;
+int delta = n;
     while (delta > 1) {
-        if (wantTrace){
-            std::cout << " | ";
+        if (wantTrace) {
+            std::cout << "δ = " << delta << "\t";
             for (int k = 0; k < n; ++k) {
-                std::cout << arr[k] << " | ";
-            }
-            std::cout << "  delta=" << delta << " ";
-        }
-        delta = delta / 2;
-        deltasort(delta, arr, n);
-        if (wantTrace){
-            std::cout << "=> ";
-            for (int k = 0; k < n; ++k) {
-                std::cout << arr[k] << " | ";
+                std::cout << arr[k] << " ";
             }
             std::cout << std::endl;
         }
+        delta = delta / 2;
+        deltasort(delta, arr, n);
     }
+    if (wantTrace) {
+        std::cout << "δ = " << delta << "\t";
+        for (int k = 0; k < n; ++k) {
+            std::cout << arr[k] << " ";
+        }
+        std::cout << std::endl;
+    }  
 }
 
 // Implementación de la función RadixSort

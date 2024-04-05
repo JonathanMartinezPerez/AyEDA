@@ -208,28 +208,40 @@ void BinSort (std::vector <Key>& arr, int n) {
             arr[j + 1] = arr[j];
         }
         arr[ini] = temp;
-    }
-    if (wantTrace){
-        std::cout << "BinSort paso: ";
-        for (int i = 0; i < n; i++) {
-            std::cout << arr[i] << " ";
+        if (wantTrace){
+            std::cout << "Paso " << i << ": ";
+            for (int i = 0; i < n; i++) {
+                std::cout << arr[i] << " ";
+            }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
     }
+    
 }
 
-// Implementación de la función Mix (Para MergeSort)
 template <class Key>
-void Mix(std::vector <Key>& arr, int ini, int cen , int fin) {
+void Mix(std::vector<Key>& arr, int ini, int cen, int fin) {
     int n1 = cen - ini + 1;
     int n2 = fin - cen;
-    std::vector <Key> L(n1);
-    std::vector <Key> R(n2);
+    std::vector<Key> L(n1);
+    std::vector<Key> R(n2);
     for (int i = 0; i < n1; i++) {
         L[i] = arr[ini + i];
     }
     for (int j = 0; j < n2; j++) {
         R[j] = arr[cen + 1 + j];
+    }
+    if (wantTrace) {
+        std::cout << "Izquierdo: ";
+        for (const auto &element : L) {
+            std::cout << element << " ";
+        }
+        std::cout << "| ";
+        std::cout << "Derecho: ";
+        for (const auto &element : R) {
+            std::cout << element << " ";
+        }
+        std::cout << std::endl;
     }
     int i = 0;
     int j = 0;
@@ -256,14 +268,19 @@ void Mix(std::vector <Key>& arr, int ini, int cen , int fin) {
     }
 }
 
-// Implementación de la función MergeSort
 template <class Key>
-void MergeSort(std::vector <Key>& arr, int ini, int fin) {
+void MergeSort(std::vector<Key>& arr, int ini, int fin) {
     if (ini < fin) {
         int cen = (ini + fin) / 2;
         MergeSort(arr, ini, cen);
         MergeSort(arr, cen + 1, fin);
         Mix(arr, ini, cen, fin);
+        if (wantTrace) {
+            std::cout << "Mezclado: ";
+            for (int i = ini; i <= fin; ++i) {
+                std::cout << arr[i] << " ";
+            }
+            std::cout << std::endl;
+        }
     }
 }
-

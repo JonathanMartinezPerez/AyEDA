@@ -113,7 +113,7 @@ void Options::RunSimulation() {
     file.close();
   }
   
-  std::cout << "Paso 0: ";
+  std::cout << "Sequencia: ";
   for (int i = 0; i < sequence->getSize(); i++) {
     std::cout << (sequence->getData()[i]) << " ";
   }
@@ -142,12 +142,11 @@ void Options::RunSimulation() {
   if(this->traces == "y") {
     modifyTrace();
   }
-
+  std::cout << "Has elegido la función de ordenación: " << this->ordenationFunction << std::endl;
   auto startSelection = std::chrono::high_resolution_clock::now();
   selection->Sort();
   auto endSelection = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsedSelection = endSelection - startSelection;
-  std::cout << "Tiempo de ejecución de SelectionSort: " << elapsedSelection.count() << " segundos" << std::endl;
 
   std::cout << "Final : ";
   for (int i = 0; i < sequence->getSize(); i++) {
@@ -155,6 +154,7 @@ void Options::RunSimulation() {
   }
   std::cout << std::endl;
 
+  std::cout << "Tiempo de ejecución de SelectionSort: " << elapsedSelection.count() << " segundos" << std::endl;
 
   delete sequence;
 
@@ -167,18 +167,22 @@ void Options::Usage() const{
     std::cout << "  -size <tamaño> : Tamaño de la tabla\n";
     std::cout << "  -ord <función de ordenación> : Función de ordenación a utilizar\n";
     std::cout << "  -init <sistema de inicialización> : Sistema de inicialización de la tabla\n";
-    std::cout << "  -trace <fichero de trazas> : y o n\n";
+    std::cout << "  -trace : y o n\n";
     std::cout << "Funciones de ordenación disponibles:\n";
-    std::cout << "  - quicksort\n";
-    std::cout << "  - heapsort\n";
-    std::cout << "  - selectionsort\n";
+    std::cout << "  - quick\n";
+    std::cout << "  - heap\n";
+    std::cout << "  - selection\n";
+    std::cout << "  - shell\n";
+    std::cout << "  - radix\n";
+    std::cout << "  - bin\n";
+    std::cout << "  - merge\n";
     std::cout << "Sistemas de inicialización disponibles:\n";
     std::cout << "  - manual\n";
     std::cout << "  - random\n";
     std::cout << "  - file <nombre del fichero>\n";
     std::cout << "Ejemplo de uso:\n";
-    std::cout << "  ./main -size 100 -ord quicksort -init random -trace n\n";
-    std::cout << "  ./main -size 100 -ord quicksort -init file init.txt -trace y\n";
+    std::cout << "  ./main -size 100 -ord quick -init random -trace n\n";
+    std::cout << "  ./main -size 100 -ord quick -init file init.txt -trace y\n";
 }
 
 

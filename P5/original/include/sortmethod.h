@@ -15,6 +15,7 @@ class SortMethod {
     public:
         SortMethod (StaticSequence<Key>* sequence) : sequence_(sequence) {}
         virtual void Sort() const = 0;
+        virtual void printTraces() const = 0;
 
     protected:
         StaticSequence<Key>* sequence_;

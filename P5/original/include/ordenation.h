@@ -17,6 +17,18 @@ class Selection : public SortMethod<Key> {
         void Sort() const override {
             SelectionSort(this->sequence_->getData(), this->sequence_->getSize());
         }
+        void printTraces() const override {
+            std::vector<Key> arr = this->sequence_->getData();
+            int n = arr.size();
+            for (int step = 0; step < n; step++) {
+                std::cout << "Step " << step + 1 << ": ";
+                for (int i = 0; i < n; i++) {
+                    if (i == step) std::cout << "| ";
+                    std::cout << arr[i] << " ";
+                }
+                std::cout << std::endl;
+            }
+    }
 };
 
 template <class Key>

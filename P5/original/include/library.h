@@ -24,7 +24,6 @@ void SelectionSort(std::vector<Key>& arr, int n) {
     }
 }
 
-
 // Implementación de la función QuickSort
 template <class Key>
 void QuickSort(std::vector<Key>& arr, int low, int high) {

@@ -110,8 +110,8 @@ void Options::RunSimulation() {
     }
     file.close();
   }
-
-  std::cout << "Before sorting: ";
+  
+  std::cout << "Paso 0: ";
   for (int i = 0; i < sequence->getSize(); i++) {
     std::cout << (sequence->getData()[i]) << " ";
   }
@@ -120,7 +120,7 @@ void Options::RunSimulation() {
   SortMethod<NIF>* selection;
   if (this->ordenationFunction == "selection") {
     selection = new Selection<NIF>(sequence);
-  } else if (this->ordenationFunction == "quick") { 
+  } /*else if (this->ordenationFunction == "quick") { 
     selection = new Quick<NIF>(sequence);
   } else if (this->ordenationFunction == "heap") {
     selection = new Heap<NIF>(sequence);
@@ -132,18 +132,22 @@ void Options::RunSimulation() {
     selection = new Bin<NIF>(sequence);
   } else if (this->ordenationFunction == "merge") {
     selection = new Merge<NIF>(sequence);
-  } else {
+  }*/ else {
     std::cerr << "Función de ordenación no válida\n";
     throw std::invalid_argument("Función de ordenación no válida");
   }
 
   selection->Sort();
 
-  std::cout << "After sorting: ";
-  for (int i = 0; i < sequence->getSize(); i++) {
-    std::cout << (sequence->getData()[i]) << " ";
+  if (traces == "n") {
+    std::cout << "After sorting: ";
+    for (int i = 0; i < sequence->getSize(); i++) {
+      std::cout << (sequence->getData()[i]) << " ";
+    }
+    std::cout << std::endl;
+  } else if (traces == "y") {
+    selection->printTraces();
   }
-  std::cout << std::endl;
 
   delete sequence;
 

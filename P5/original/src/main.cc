@@ -17,15 +17,5 @@ int main(int argc, char *argv[]) {
     Options options(argc, argv);
     options.RunSimulation();
 
-    /*
-    selection si si
-    quick     si si 
-    heap      si si
-    shell     si si
-    radix     si si
-    bin       si
-    merge     si
-    */
-
     return 0;
 }

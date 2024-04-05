@@ -130,11 +130,17 @@ void Options::RunSimulation() {
     selection = new Shell<NIF>(sequence);
   } else if (this->ordenationFunction == "radix") {
     selection = new Radix<NIF>(sequence);
+  } else if (this->ordenationFunction == "insertion") {
+    selection = new Insertion<NIF>(sequence);
+  } else if (this->ordenationFunction == "bubble") {
+    selection = new Bubble<NIF>(sequence);
+  }  else if (this->ordenationFunction == "shake") {
+    selection = new Shake<NIF>(sequence);
   } else if (this->ordenationFunction == "bin") {
     selection = new Bin<NIF>(sequence);
   } else if (this->ordenationFunction == "merge") {
     selection = new Merge<NIF>(sequence);
-  } else {
+  }  else {
     std::cerr << "Función de ordenación no válida\n";
     throw std::invalid_argument("Función de ordenación no válida");
   }
@@ -174,6 +180,9 @@ void Options::Usage() const{
     std::cout << "  - selection\n";
     std::cout << "  - shell\n";
     std::cout << "  - radix\n";
+    std::cout << "  - insertion\n";
+    std::cout << "  - bubble\n";
+    std::cout << "  - shake\n";
     std::cout << "  - bin\n";
     std::cout << "  - merge\n";
     std::cout << "Sistemas de inicialización disponibles:\n";

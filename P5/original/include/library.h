@@ -189,6 +189,78 @@ void RadixSort(std::vector<Key>& arr, int n) {
     }
 }
 
+// Implementación de la función InsertionSort
+template <class Key>
+void InsertionSort(std::vector<Key>& arr, int i) {
+    for (int j = 1; j < i; j++) {
+        Key temp = arr[j];
+        int k = j - 1;
+        while (k >= 0 && arr[k] > temp) {
+            arr[k + 1] = arr[k];
+            k--;
+        }
+        arr[k + 1] = temp;
+        if (wantTrace) {
+            std::cout << "Paso " << j << ": ";
+            for (int k = 0; k < i; ++k) {
+                std::cout << arr[k] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+}
+
+// Implementación de la función BubbleSort
+template <class Key>
+void BubbleSort(std::vector<Key>& arr, int n) {
+    for (int i = 1; i < n; i++) {
+        for (int j = n-1; j >= i; j--) {
+            if (arr[j] < arr[j - 1]) {
+                std::swap(arr[j-1], arr[j]);
+            }
+        }
+        if (wantTrace) {
+            std::cout << "Paso " << i << ": ";
+            for (int k = 0; k < n; ++k) {
+                std::cout << arr[k] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+}
+
+// Implementación de la función ShakeSort
+template <class Key>
+void ShakeSort(std::vector<Key>& arr, int n){
+    int ini = 1 ; 
+    int fin = n-1 ; 
+    int cam = n ;
+    int pasos = 0 ;
+    while (ini < fin){
+        if (wantTrace){
+            std::cout << "Paso " << pasos++ << ": ";  
+            for (int i = 0; i < n; i++){
+                std::cout << arr[i] << " ";
+            }
+            std::cout << std::endl;
+        }
+        for (int j = fin; j >= ini; j--){
+            if (arr[j] < arr[j-1]) {
+                std::swap(arr[j-1],arr[j]) ;
+                cam = j ;
+            }
+        }
+        ini = cam + 1 ;
+        for (int j = ini; j <= fin; j++){
+            if (arr[j] < arr[j-1]) {
+                std::swap(arr[j-1],arr[j]) ;
+                cam = j;
+            } 
+        }
+        fin = cam - 1 ;
+    }
+}
+
 // Implementación de la función BinSort
 template <class Key>
 void BinSort (std::vector <Key>& arr, int n) {
@@ -219,6 +291,7 @@ void BinSort (std::vector <Key>& arr, int n) {
     
 }
 
+// Implementación de la función Mix (para MergeSort)
 template <class Key>
 void Mix(std::vector<Key>& arr, int ini, int cen, int fin) {
     int n1 = cen - ini + 1;
@@ -268,6 +341,7 @@ void Mix(std::vector<Key>& arr, int ini, int cen, int fin) {
     }
 }
 
+// Implementación de la función MergeSort
 template <class Key>
 void MergeSort(std::vector<Key>& arr, int ini, int fin) {
     if (ini < fin) {

@@ -56,6 +56,33 @@ class Radix : public SortMethod<Key> {
 };
 
 template <class Key>
+class Insertion : public SortMethod<Key> {
+    public:
+        Insertion(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}
+        void Sort() const override {
+            InsertionSort(this->sequence_->getData(), this->sequence_->getSize());
+        }
+};
+
+template <class Key>
+class Bubble : public SortMethod<Key> {
+    public:
+        Bubble(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}
+        void Sort() const override {
+            BubbleSort(this->sequence_->getData(), this->sequence_->getSize());
+        }
+};
+
+template <class Key>
+class Shake : public SortMethod<Key> {
+    public:
+        Shake(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}
+        void Sort() const override {
+            ShakeSort(this->sequence_->getData(), this->sequence_->getSize());
+        }
+}; 
+
+template <class Key>
 class Bin : public SortMethod<Key> {
     public:
         Bin(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}

@@ -3,9 +3,11 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <chrono>
 
 #include "usagetools.h"
 
+bool wantTrace = false;
 // Constructor de la clase Options para parsear los args
 Options::Options(int argc, char* argv[]) {
 
@@ -120,7 +122,7 @@ void Options::RunSimulation() {
   SortMethod<NIF>* selection;
   if (this->ordenationFunction == "selection") {
     selection = new Selection<NIF>(sequence);
-  } /*else if (this->ordenationFunction == "quick") { 
+  } else if (this->ordenationFunction == "quick") { 
     selection = new Quick<NIF>(sequence);
   } else if (this->ordenationFunction == "heap") {
     selection = new Heap<NIF>(sequence);
@@ -132,22 +134,27 @@ void Options::RunSimulation() {
     selection = new Bin<NIF>(sequence);
   } else if (this->ordenationFunction == "merge") {
     selection = new Merge<NIF>(sequence);
-  }*/ else {
+  } else {
     std::cerr << "Función de ordenación no válida\n";
     throw std::invalid_argument("Función de ordenación no válida");
   }
 
-  selection->Sort();
-
-  if (traces == "n") {
-    std::cout << "After sorting: ";
-    for (int i = 0; i < sequence->getSize(); i++) {
-      std::cout << (sequence->getData()[i]) << " ";
-    }
-    std::cout << std::endl;
-  } else if (traces == "y") {
-    selection->printTraces();
+  if(this->traces == "y") {
+    modifyTrace();
   }
+
+  auto startSelection = std::chrono::high_resolution_clock::now();
+  selection->Sort();
+  auto endSelection = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsedSelection = endSelection - startSelection;
+  std::cout << "Tiempo de ejecución de SelectionSort: " << elapsedSelection.count() << " segundos" << std::endl;
+
+  std::cout << "Final : ";
+  for (int i = 0; i < sequence->getSize(); i++) {
+    std::cout << (sequence->getData()[i]) << " ";
+  }
+  std::cout << std::endl;
+
 
   delete sequence;
 

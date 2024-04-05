@@ -9,6 +9,7 @@
 #include "nif.h"
 #include "sequence.h"
 #include "ordenation.h"
+#include "library.h"
 
 
 // Clase para parsear los argumentos de entrada y ejecutar la simulación

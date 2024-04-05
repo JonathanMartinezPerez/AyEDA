@@ -6,11 +6,26 @@
 #include <vector>
 #include <algorithm>
 
+extern bool wantTrace;
+
+inline void modifyTrace() {
+    wantTrace = true;
+}
+
 // Implementación de la función SelectionSort
 template <class Key>
 void SelectionSort(std::vector<Key>& arr, int n) {
     for (int i = 0; i < n - 1; i++) {
         int min = i;
+
+        if(wantTrace){
+            std::cout << "Paso " << i + 1 << ": ";
+            for (int k = 0; k < n; ++k) {
+                if (k == i) std::cout << "| ";
+                std::cout << arr[k] << " ";
+            }
+            std::cout << std::endl;
+        }
         for (int j = i + 1; j < n; j++) {
             if (arr[j] < arr[min]) {
                 min = j;
@@ -42,6 +57,14 @@ void QuickSort(std::vector<Key>& arr, int low, int high) {
             i++;
             j--;
         }
+        if (wantTrace) {
+        std::cout << "Pivote: " << pivot << std::endl;
+        std::cout << "Vector partido: ";
+        for (int k = low; k <= high; ++k) {
+            std::cout << arr[k] << " ";
+        }
+        std::cout << std::endl;
+    }
         if (low < j) {
             QuickSort(arr, low, j);
         }
@@ -63,9 +86,17 @@ void heapify(int i, std::vector<Key>& arr, int n) {
     if (right < n && arr[right] > arr[largest]) {
         largest = right;
     }
+    if (wantTrace) {
+        std::cout << "m=" << largest << " ";
+        for (int k = 0; k < n; ++k) {
+            if (k == i) std::cout << " i=" << i << " ";
+            std::cout << arr[k] << " ";
+        }
+        std::cout << std::endl;
+    }
     if (largest != i) {
         std::swap(arr[i], arr[largest]);
-        heapify(largest, arr, n);
+    
     }
 }
 
@@ -100,8 +131,22 @@ template <class Key>
 void ShellSort(std::vector<Key>& arr, int n) {
     int delta = n;
     while (delta > 1) {
+        if (wantTrace){
+            std::cout << " | ";
+            for (int k = 0; k < n; ++k) {
+                std::cout << arr[k] << " | ";
+            }
+            std::cout << "  delta=" << delta << " ";
+        }
         delta = delta / 2;
         deltasort(delta, arr, n);
+        if (wantTrace){
+            std::cout << "=> ";
+            for (int k = 0; k < n; ++k) {
+                std::cout << arr[k] << " | ";
+            }
+            std::cout << std::endl;
+        }
     }
 }
 
@@ -126,6 +171,14 @@ void RadixSort(std::vector<Key>& arr, int n) {
         for (int i = n - 1; i >= 0; i--) {
             output[count[(arr[i] / exp) % 10] - 1] = arr[i];
             count[(arr[i] / exp) % 10]--;
+        }
+
+        if (wantTrace){
+            std::cout << "RadixSort paso con exp = " << exp << ": ";
+            for (int i = 0; i < n; i++) {
+                std::cout << output[i] << " ";
+            }
+            std::cout << std::endl;
         }
         for (int i = 0; i < n; i++) {
             arr[i] = output[i];
@@ -153,7 +206,13 @@ void BinSort (std::vector <Key>& arr, int n) {
         }
         arr[ini] = temp;
     }
-
+    if (wantTrace){
+        std::cout << "BinSort paso: ";
+        for (int i = 0; i < n; i++) {
+            std::cout << arr[i] << " ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 // Implementación de la función Mix (Para MergeSort)

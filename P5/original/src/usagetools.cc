@@ -118,15 +118,15 @@ void Options::RunSimulation() {
   std::cout << std::endl;
 
   SortMethod<NIF>* selection;
-  if (this->ordenationFunction == "quick") { //
-    selection = new Quick<NIF>(sequence);
-  } else if (this->ordenationFunction == "heap") { 
-    selection = new Heap<NIF>(sequence);
-  } else if (this->ordenationFunction == "selection") { //
+  if (this->ordenationFunction == "selection") {
     selection = new Selection<NIF>(sequence);
-  } else if (this->ordenationFunction == "shell") { //
+  } else if (this->ordenationFunction == "quick") { 
+    selection = new Quick<NIF>(sequence);
+  } else if (this->ordenationFunction == "heap") {
+    selection = new Heap<NIF>(sequence);
+  } else if (this->ordenationFunction == "shell") {
     selection = new Shell<NIF>(sequence);
-  } else if (this->ordenationFunction == "radix") { //
+  } else if (this->ordenationFunction == "radix") {
     selection = new Radix<NIF>(sequence);
   } else if (this->ordenationFunction == "bin") {
     selection = new Bin<NIF>(sequence);

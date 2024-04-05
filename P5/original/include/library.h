@@ -55,35 +55,30 @@ void QuickSort(std::vector<Key>& arr, int low, int high) {
 // Implementación de la función heapify (para HeapSort)
 template <class Key>
 void heapify(int i, std::vector<Key>& arr, int n) {
-    while (2*i <= n) {
-        int h1 = 2*i;
-        int h2 = h1 + 1;
-        int h;
-        if (h1 == n){
-            h = h1;
-        } else if (arr[h1] > arr[h2]){
-            h = h1;
-        } else {
-            h = h2;
-        }
-        if (arr[h] <= arr[i]){
-            break;
-        } else{
-            std::swap(arr[i], arr[h]);
-            i = h;
-        }
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    if (left < n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+    if (right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+    if (largest != i) {
+        std::swap(arr[i], arr[largest]);
+        heapify(largest, arr, n);
     }
 }
 
 // Implementación de la función HeapSort
 template <class Key>
 void HeapSort(std::vector<Key>& arr, int n) {
-    for (int i = n / 2; i > 0; i--) {
+    for (int i = n/2; i >= 0; i--) {
         heapify(i, arr, n);
     }
-    for (int i = n; i > 1; i--) {
-        std::swap(arr[1], arr[i]);
-        heapify(1, arr, i - 1);
+    for (int i = n - 1; i > 0; i--) {
+        std::swap(arr[0], arr[i]);
+        heapify(0, arr, i);
     }
 }
 
@@ -165,17 +160,37 @@ void BinSort (std::vector <Key>& arr, int n) {
 // Implementación de la función Mix (Para MergeSort)
 template <class Key>
 void Mix(std::vector <Key>& arr, int ini, int cen , int fin) {
-    int i = ini;
-    int j = cen + 1;
+    int n1 = cen - ini + 1;
+    int n2 = fin - cen;
+    std::vector <Key> L(n1);
+    std::vector <Key> R(n2);
+    for (int i = 0; i < n1; i++) {
+        L[i] = arr[ini + i];
+    }
+    for (int j = 0; j < n2; j++) {
+        R[j] = arr[cen + 1 + j];
+    }
+    int i = 0;
+    int j = 0;
     int k = ini;
-    while ((i <= cen) && (j <= fin)) {
-        if (arr[i] < arr[j]) {
-            arr[k] = arr[i];
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
             i++;
         } else {
-            arr[k] = arr[j];
+            arr[k] = R[j];
             j++;
         }
+        k++;
+    }
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
         k++;
     }
 }

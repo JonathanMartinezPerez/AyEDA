@@ -11,9 +11,6 @@ class NIF {
         NIF() : value_(rand() % 100000000) {}
         NIF(long int val) : value_(val) {}
         bool operator==(const NIF& other) const { return value_==other.value_; }
-        bool operator!=(const NIF& other) const { return !(*this == other); }
-        bool operator<(const NIF& other) const { return value_<other.value_; }
-        bool operator>(const NIF& other) const { return value_>other.value_; }
         operator long() const { return value_; }
         friend std::istream& operator>>(std::istream& input, NIF& nif) {
             long int value;

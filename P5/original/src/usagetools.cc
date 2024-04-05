@@ -118,16 +118,20 @@ void Options::RunSimulation() {
   std::cout << std::endl;
 
   SortMethod<NIF>* selection;
-  if (this->ordenationFunction == "quick") {
+  if (this->ordenationFunction == "quick") { //
     selection = new Quick<NIF>(sequence);
-  } else if (this->ordenationFunction == "heap") {
+  } else if (this->ordenationFunction == "heap") { 
     selection = new Heap<NIF>(sequence);
-  } else if (this->ordenationFunction == "selection") {
+  } else if (this->ordenationFunction == "selection") { //
     selection = new Selection<NIF>(sequence);
-  } else if (this->ordenationFunction == "shell") {
+  } else if (this->ordenationFunction == "shell") { //
     selection = new Shell<NIF>(sequence);
-  } else if (this->ordenationFunction == "radix") {
+  } else if (this->ordenationFunction == "radix") { //
     selection = new Radix<NIF>(sequence);
+  } else if (this->ordenationFunction == "bin") {
+    selection = new Bin<NIF>(sequence);
+  } else if (this->ordenationFunction == "merge") {
+    selection = new Merge<NIF>(sequence);
   } else {
     std::cerr << "Función de ordenación no válida\n";
     throw std::invalid_argument("Función de ordenación no válida");
@@ -145,7 +149,7 @@ void Options::RunSimulation() {
 
 }
 
-// AYUDA
+// AFuncion que muestra el uso del programa
 void Options::Usage() const{
     std::cout << "Uso: ./main -size <tamaño> -ord <función de ordenación> -init <manual | ramdom | file> [filename] -trace <y | n>\n";
     std::cout << "Opciones:\n";

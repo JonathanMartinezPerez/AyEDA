@@ -9,6 +9,7 @@
 #include "sequence.h"
 #include "library.h"
 
+//Estas clases heredan de SortMethod y sobreescriben el método Sort llamando cada una a su función de ordenación correspondiente
 template <class Key>
 class Selection : public SortMethod<Key> {
     public:
@@ -51,5 +52,23 @@ class Radix : public SortMethod<Key> {
         Radix(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}
         void Sort() const override {
             RadixSort(this->sequence_->getData(), this->sequence_->getSize());
+        }
+};
+
+template <class Key>
+class Bin : public SortMethod<Key> {
+    public:
+        Bin(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}
+        void Sort() const override {
+            BinSort(this->sequence_->getData(), this->sequence_->getSize());
+        }
+};
+
+template <class Key>
+class Merge : public SortMethod<Key> {
+    public:
+        Merge(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}
+        void Sort() const override {
+            MergeSort(this->sequence_->getData(), 0, this->sequence_->getSize() - 1);
         }
 };

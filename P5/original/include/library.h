@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 
+// Implementación de la función SelectionSort
 template <class Key>
 void SelectionSort(std::vector<Key>& arr, int n) {
     for (int i = 0; i < n - 1; i++) {
@@ -23,6 +24,8 @@ void SelectionSort(std::vector<Key>& arr, int n) {
     }
 }
 
+
+// Implementación de la función QuickSort
 template <class Key>
 void QuickSort(std::vector<Key>& arr, int low, int high) {
     int i = low;
@@ -49,6 +52,7 @@ void QuickSort(std::vector<Key>& arr, int low, int high) {
     }
 }
 
+// Implementación de la función heapify (para HeapSort)
 template <class Key>
 void heapify(int i, std::vector<Key>& arr, int n) {
     while (2*i <= n) {
@@ -71,6 +75,7 @@ void heapify(int i, std::vector<Key>& arr, int n) {
     }
 }
 
+// Implementación de la función HeapSort
 template <class Key>
 void HeapSort(std::vector<Key>& arr, int n) {
     for (int i = n / 2; i > 0; i--) {
@@ -82,6 +87,7 @@ void HeapSort(std::vector<Key>& arr, int n) {
     }
 }
 
+// Implementación de la función deltasort (para ShellSort)
 template <class Key>
 void deltasort(int delta, std::vector<Key>& arr, int n) {
     for (int i = delta; i < n; i++) {
@@ -95,6 +101,7 @@ void deltasort(int delta, std::vector<Key>& arr, int n) {
     }
 }
 
+// Implementación de la función ShellSort
 template <class Key>
 void ShellSort(std::vector<Key>& arr, int n) {
     int delta = n;
@@ -104,6 +111,7 @@ void ShellSort(std::vector<Key>& arr, int n) {
     }
 }
 
+// Implementación de la función RadixSort
 template <class Key>
 void RadixSort(std::vector<Key>& arr, int n) {
     Key max = arr[0];
@@ -131,4 +139,55 @@ void RadixSort(std::vector<Key>& arr, int n) {
     }
 }
 
+// Implementación de la función BinSort
+template <class Key>
+void BinSort (std::vector <Key>& arr, int n) {
+    for (int i = 1; i < n; i++) {
+        Key temp = arr[i];
+        int ini = 0;
+        int fin = i - 1;
+        while (ini <= fin) {
+            int m = (ini + fin) / 2;
+            if (temp > arr[m]) {
+                ini = m + 1;
+            } else {
+                fin = m - 1;
+            }
+        }
+        for (int j = i - 1; j >= ini; j--) {
+            arr[j + 1] = arr[j];
+        }
+        arr[ini] = temp;
+    }
+
+}
+
+// Implementación de la función Mix (Para MergeSort)
+template <class Key>
+void Mix(std::vector <Key>& arr, int ini, int cen , int fin) {
+    int i = ini;
+    int j = cen + 1;
+    int k = ini;
+    while ((i <= cen) && (j <= fin)) {
+        if (arr[i] < arr[j]) {
+            arr[k] = arr[i];
+            i++;
+        } else {
+            arr[k] = arr[j];
+            j++;
+        }
+        k++;
+    }
+}
+
+// Implementación de la función MergeSort
+template <class Key>
+void MergeSort(std::vector <Key>& arr, int ini, int fin) {
+    if (ini < fin) {
+        int cen = (ini + fin) / 2;
+        MergeSort(arr, ini, cen);
+        MergeSort(arr, cen + 1, fin);
+        Mix(arr, ini, cen, fin);
+    }
+}
 

@@ -145,9 +145,6 @@ void Options::RunSimulation() {
     throw std::invalid_argument("Función de ordenación no válida");
   }
 
-  if(this->traces == "y") {
-    modifyTrace();
-  }
   std::cout << "Has elegido la función de ordenación: " << this->ordenationFunction << std::endl;
   auto startSelection = std::chrono::high_resolution_clock::now();
   selection->Sort();

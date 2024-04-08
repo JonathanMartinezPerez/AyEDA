@@ -15,7 +15,7 @@ inline void modifyTrace() {
 
 // Implementación de la función SelectionSort
 template <class Key>
-void SelectionSort(std::vector<Key>& arr, int n) {
+void SelectionSort(std::vector<Key>& arr, int n, unsigned& comparison) {
     for (int i = 0; i < n - 1; i++) {
         int min = i;
 
@@ -28,6 +28,7 @@ void SelectionSort(std::vector<Key>& arr, int n) {
             std::cout << std::endl;
         }
         for (int j = i + 1; j < n; j++) {
+            comparison++;
             if (arr[j] < arr[min]) {
                 min = j;
             }
@@ -42,16 +43,18 @@ void SelectionSort(std::vector<Key>& arr, int n) {
 
 // Implementación de la función QuickSort
 template <class Key>
-void QuickSort(std::vector<Key>& arr, int low, int high) {
+void QuickSort(std::vector<Key>& arr, int low, int high, unsigned& comparison) {
     int i = low;
     int j = high;
     Key pivot = arr[(i + j) / 2];
     while (i <= j) {
         while (arr[i] < pivot) {
             i++;
+            comparison++;
         }
         while (arr[j] > pivot) {
             j--;
+            comparison++;
         }
         if (i <= j) {
             std::swap(arr[i], arr[j]);
@@ -67,10 +70,10 @@ void QuickSort(std::vector<Key>& arr, int low, int high) {
         std::cout << std::endl;
     }
         if (low < j) {
-            QuickSort(arr, low, j);
+            QuickSort(arr, low, j, comparison);
         }
         if (i < high) {
-            QuickSort(arr, i, high);
+            QuickSort(arr, i, high, comparison);
         }
     }
 }
@@ -99,8 +102,21 @@ void heapify(int i, std::vector<Key>& arr, int n) {
 // Implementación de la función HeapSort
 template <class Key>
 void HeapSort(std::vector<Key>& arr, int n) {
+    if(wantTrace){        
+        std::cout << "Introdduccion:" << std::endl;
+    }
     for (int i = n/2; i >= 0; i--) {
         heapify(i, arr, n);
+        if (wantTrace) {
+            std::cout << std::setw(5) << std::right;
+            for (int k = 0; k < n; ++k) {
+                std::cout << "| " << std::setw(2) << arr[k] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+    if(wantTrace){        
+        std::cout << "Extraccion:" << std::endl;
     }
     for (int i = n - 1; i > 0; i--) {
         std::swap(arr[0], arr[i]);
@@ -114,7 +130,6 @@ void HeapSort(std::vector<Key>& arr, int n) {
         }
     }
 }
-
 // Implementación de la función deltasort (para ShellSort)
 template <class Key>
 void deltasort(int delta, std::vector<Key>& arr, int n) {

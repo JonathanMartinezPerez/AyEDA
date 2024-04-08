@@ -15,8 +15,14 @@ class Selection : public SortMethod<Key> {
     public:
         Selection(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}
         void Sort() const override {
-            SelectionSort(this->sequence_->getData(), this->sequence_->getSize());
+            SelectionSort(this->sequence_->getData(), this->sequence_->getSize(), comparisoncount);
         }
+        // Método para obtener el número de comparaciones
+        unsigned getComparisonCount() const {
+        return comparisoncount;
+    }
+    private:
+        mutable unsigned comparisoncount = 0;
 };
 
 template <class Key>
@@ -24,8 +30,14 @@ class Quick : public SortMethod<Key> {
     public:
         Quick(StaticSequence<Key>* sequence) : SortMethod<Key>(sequence) {}
         void Sort() const override {
-            QuickSort(this->sequence_->getData(), 0, this->sequence_->getSize() - 1);
+            QuickSort(this->sequence_->getData(), 0, this->sequence_->getSize() - 1, comparisoncount);
         }
+        unsigned getComparisonCount() const {
+            return comparisoncount;
+        }
+    private:
+        mutable unsigned comparisoncount = 0;
+
 };
 
 template <class Key>

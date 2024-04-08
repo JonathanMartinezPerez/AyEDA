@@ -99,8 +99,21 @@ void heapify(int i, std::vector<Key>& arr, int n) {
 // Implementación de la función HeapSort
 template <class Key>
 void HeapSort(std::vector<Key>& arr, int n) {
+    if(wantTrace){        
+        std::cout << "Introdduccion:" << std::endl;
+    }
     for (int i = n/2; i >= 0; i--) {
         heapify(i, arr, n);
+        if (wantTrace) {
+            std::cout << std::setw(5) << std::right;
+            for (int k = 0; k < n; ++k) {
+                std::cout << "| " << std::setw(2) << arr[k] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+    if(wantTrace){        
+        std::cout << "Extraccion:" << std::endl;
     }
     for (int i = n - 1; i > 0; i--) {
         std::swap(arr[0], arr[i]);

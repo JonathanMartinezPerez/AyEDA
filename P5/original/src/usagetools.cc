@@ -160,7 +160,7 @@ void Options::RunSimulation() {
   }
   std::cout << std::endl;
 
-  std::cout << "Tiempo de ejecución de SelectionSort: " << elapsedSelection.count() << " segundos" << std::endl;
+  std::cout << "Tiempo de ejecución de Sort: " << elapsedSelection.count() << " segundos" << std::endl;
 
   delete sequence;
 

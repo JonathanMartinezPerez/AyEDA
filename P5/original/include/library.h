@@ -100,7 +100,7 @@ void heapify(int i, std::vector<Key>& arr, int n) {
 template <class Key>
 void HeapSort(std::vector<Key>& arr, int n) {
     if(wantTrace){        
-        std::cout << "Introdduccion:" << std::endl;
+        std::cout << "Introduccion:" << std::endl;
     }
     for (int i = n/2; i >= 0; i--) {
         heapify(i, arr, n);

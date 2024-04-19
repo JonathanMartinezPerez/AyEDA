@@ -6,6 +6,7 @@
 
 #include "AB.h"
 
+// Clase ABB heredada de AB
 template<typename Key>
 class ABB : public AB<Key> {
 public:
@@ -19,11 +20,13 @@ private:
     bool buscarRama(NodoB<Key>* nodo, const Key& k) const;
 };
 
+// Método insertar para insertar un nodo en el árbol llamando a insertarRama
 template<typename Key>
 bool ABB<Key>::insertar(const Key& k) {
     return insertarRama(this->raiz, k);
 }
 
+// Método insertarRama para insertar un nodo en el árbol
 template<typename Key>
 bool ABB<Key>::insertarRama(NodoB<Key>*& nodo, const Key& k) {
     //verificar si existe raiz si no insertar y devolver true
@@ -66,11 +69,13 @@ bool ABB<Key>::insertarRama(NodoB<Key>*& nodo, const Key& k) {
     return false;  
 }
 
+// Método buscar para buscar un nodo en el árbol llamando a buscarRama
 template<typename Key>
 bool ABB<Key>::buscar(const Key& k) const {
     return buscarRama(this->raiz, k);
 }
 
+// Método buscarRama para buscar un nodo en el árbol
 template <class Key>
 bool ABB<Key>::buscarRama(NodoB<Key>* nodo, const Key& k) const {
   if (!nodo) {

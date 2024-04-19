@@ -16,13 +16,18 @@ public:
 
     virtual bool insertar(const Key& k) = 0;
     virtual bool buscar(const Key& k) const = 0;
+    int tam(void);
+
     NodoB<Key>* getRaiz() const { return raiz; }
+    void setRaiz(NodoB<Key>* nodo) { raiz = nodo; }
+
     virtual void inorden() const;
 
 protected:
     NodoB<Key>* raiz;
 
     void limpiar(NodoB<Key>* nodo);
+    int tamRama(NodoB<Key>* nodo);
     void inordenRecursivo(NodoB<Key>* nodo) const;
     void mostrarPorNiveles(std::ostream& os) const;
 };
@@ -61,6 +66,22 @@ void AB<Key>::inordenRecursivo(NodoB<Key>* nodo) const {
         inordenRecursivo(nodo->getIzdo());
         std::cout << nodo->getDato() << " ";
         inordenRecursivo(nodo->getDcho());
+    }
+}
+
+// Método tam para obtener el tamaño del árbol
+template<typename Key>
+int AB<Key>::tam(void) {
+    return tamRama(raiz);
+}
+
+// Método tamRama para obtener el tamaño de una rama
+template<typename Key>
+int AB<Key>::tamRama(NodoB<Key>* nodo) {
+    if (nodo == nullptr) {
+        return 0;
+    } else {
+        return 1 + tamRama(nodo->getIzdo()) + tamRama(nodo->getDcho());
     }
 }
 

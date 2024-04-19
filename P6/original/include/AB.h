@@ -1,108 +1,99 @@
+//Autor: Jonathan Martinez Pérez
+//File: AB.h
 #pragma once
 
 #include <iostream>
+#include <queue>
+#include <utility>
 #include "nodoB.h"
 
+// Clase abstracta AB
 template<typename Key>
 class AB {
 public:
-    AB() : raiz(nullptr) {}
+    AB();
+    ~AB();
 
-    // Destructor
-    ~AB() {
-        limpiar(raiz);
-    }
-
-    virtual bool insertar(const Key& k) {
-        return insertarRecursivo(raiz, k);
-    }
-
-    bool buscar(const Key& k) const {
-        return buscarRecursivo(raiz, k);
-    }
-
-    void inorden() const {
-        inordenRecursivo(raiz);
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const AB<Key>& arbol) {
-        arbol.mostrarPorNiveles(os, arbol.raiz, 0);
-        return os;
-    }
+    virtual bool insertar(const Key& k) = 0;
+    virtual bool buscar(const Key& k) const = 0;
+    NodoB<Key>* getRaiz() const { return raiz; }
+    virtual void inorden() const;
 
 protected:
     NodoB<Key>* raiz;
 
-    void limpiar(NodoB<Key>* nodo) {
-        if (nodo != nullptr) {
-            limpiar(nodo->izdo);
-            limpiar(nodo->dcho);
-            delete nodo;
-        }
-    }
-
-    bool insertarRecursivo(NodoB<Key>*& nodo, const Key& k) {
-        if (nodo == nullptr) {
-            nodo = new NodoB<Key>(k);
-            return true;
-        }
-        if (k < nodo->dato) {
-            return insertarRecursivo(nodo->izdo, k);
-        } else if (k > nodo->dato) {
-            return insertarRecursivo(nodo->dcho, k);
-        }
-        return false; // El valor ya existe en el árbol
-    }
-
-    bool buscarRecursivo(NodoB<Key>* nodo, const Key& k) const {
-        if (nodo == nullptr) {
-            return false;
-        }
-        if (k == nodo->dato) {
-            return true;
-        }
-        if (k < nodo->dato) {
-            return buscarRecursivo(nodo->izdo, k);
-        } else {
-            return buscarRecursivo(nodo->dcho, k);
-        }
-    }
-
-    void inordenRecursivo(NodoB<Key>* nodo) const {
-        if (nodo != nullptr) {
-            inordenRecursivo(nodo->izdo);
-            std::cout << nodo->dato << " ";
-            inordenRecursivo(nodo->dcho);
-        }
-    }
-
-    void mostrarPorNiveles(std::ostream& os, NodoB<Key>* nodo, int nivel) const {
-        if (nodo == nullptr) {
-            os << "[.]";
-            return;
-        }
-
-        // Mostrar el nodo actual
-        os << "[" << nodo->dato << "]";
-
-        // Si tiene hijos, mostrarlos en el siguiente nivel
-        if (nodo->izdo != nullptr || nodo->dcho != nullptr) {
-            os << std::endl;
-
-            // Mostrar el subárbol izquierdo
-            for (int i = 0; i < nivel + 1; ++i) {
-                os << "    ";
-            }
-            mostrarPorNiveles(os, nodo->izdo, nivel + 1);
-
-            // Mostrar el subárbol derecho
-            if (nodo->dcho != nullptr) {
-                os << std::endl;
-                for (int i = 0; i < nivel + 1; ++i) {
-                    os << "    ";
-                }
-                mostrarPorNiveles(os, nodo->dcho, nivel + 1);
-            }
-        }
-    }
+    void limpiar(NodoB<Key>* nodo);
+    void inordenRecursivo(NodoB<Key>* nodo) const;
+    void mostrarPorNiveles(std::ostream& os) const;
 };
+
+// Constructor de la clase AB
+template<typename Key>
+AB<Key>::AB() : raiz(nullptr) {};
+
+// Destructor de la clase AB
+template<typename Key>
+AB<Key>::~AB() {
+    limpiar(raiz);
+}
+
+// Método limpiar para el destructor
+template<typename Key>
+void AB<Key>::limpiar(NodoB<Key>* nodo) {
+    if (nodo != nullptr) {
+        limpiar(nodo->getIzdo());
+        limpiar(nodo->getDcho());
+        delete nodo;
+    }
+}
+
+// Método inorden para recorrer el árbol
+template<typename Key>
+void AB<Key>::inorden() const {
+    inordenRecursivo(raiz);
+    std::cout << std::endl;
+}
+
+// Método inorden recursivo
+template<typename Key>
+void AB<Key>::inordenRecursivo(NodoB<Key>* nodo) const {
+    if (nodo != nullptr) {
+        inordenRecursivo(nodo->getIzdo());
+        std::cout << nodo->getDato() << " ";
+        inordenRecursivo(nodo->getDcho());
+    }
+}
+
+// Método mostrarPorNiveles para mostrar el árbol por niveles
+template<typename Key>
+void AB<Key>::mostrarPorNiveles(std::ostream& os) const {
+  std::queue<std::pair<NodoB<Key>*,int>> Q;
+  NodoB<Key> *nodo;
+  int nivel, Nivel_actual = 0;
+  Q.push(std::make_pair(this->getRaiz(), 0));
+
+  os << "Nivel 0: ";
+  //Recorremos la cola hasta que este vacia
+  while (!Q.empty()) {
+    //Guardamos el primer valor de la cola
+    std::pair<NodoB<Key>*,int> p;
+    p = Q.front();
+    nodo = p.first;
+    nivel = p.second;
+    //Quitamos la pareja(nodo,nivel) de la Cola
+    Q.pop();
+    if(nivel > Nivel_actual) {
+      Nivel_actual = nivel;
+      os << "\nNivel " << Nivel_actual << ": ";
+    }
+    //Mostramos el valor del nodo
+    if (nodo != nullptr) {
+      os << "[" << nodo->getDato() << "]";
+      Q.push(std::make_pair(nodo->getIzdo(),nivel + 1));
+      Q.push(std::make_pair(nodo->getDcho(),nivel + 1));
+    } else {
+        os << "[.]";
+    }
+  }
+  os << "\n";
+}

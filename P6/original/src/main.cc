@@ -5,11 +5,12 @@
 #include "AB.h"
 #include "ABB.h"
 #include "ABE.h"
+#include "nif.h"
 
 int main() { 
 
     //probar el insertar
-    ABE<int> arbol;
+    ABE<NIF> arbol;
     arbol.insertar(10);
     arbol.insertar(5);
     arbol.insertar(15);

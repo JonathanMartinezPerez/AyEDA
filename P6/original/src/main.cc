@@ -6,18 +6,12 @@
 #include "ABB.h"
 #include "ABE.h"
 #include "nif.h"
+#include "usagetools.h"
 
-int main() { 
+int main(int argc, char* argv[]) { 
 
-    //probar el insertar
-    ABE<NIF> arbol;
-    arbol.insertar(10);
-    arbol.insertar(5);
-    arbol.insertar(15);
-    arbol.insertar(3);
-    arbol.insertar(3);
-
-    arbol.inorden();
+    Options options(argc, argv);
+    options.RunSimulation();
 
     return 0;
 }

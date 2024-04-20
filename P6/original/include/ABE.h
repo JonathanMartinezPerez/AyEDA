@@ -101,11 +101,9 @@ bool ABE<Key>::buscar(const Key& k) const {
 template <class Key>
 bool ABE<Key>::buscarRama(NodoB<Key>* nodo, const Key& k) const {
   if (!nodo) {
-    std::cout << "No se encontro el dato: " << k << std::endl;
     return false;
   }
   if (k == nodo->getDato()) {
-    std::cout << "Se encontro el dato: " << k << std::endl;
     return true;
   }
   if (k < nodo->getDato())

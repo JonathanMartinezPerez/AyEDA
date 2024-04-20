@@ -161,7 +161,6 @@ void Options::Menu(AB<NIF>* arbol) const {
                 std::cout << "Ingrese la clave a insertar: ";
                 std::cin >> key;
                 arbol->insertar(key);
-                std::cout << "Clave insertada correctamente.\n";
                 break;
             case '2':
                 int searchKey;
@@ -174,6 +173,7 @@ void Options::Menu(AB<NIF>* arbol) const {
                 }
                 break;
             case '3':
+                std::cout << "Mostrando árbol inorden:\n";
                 arbol->inorden();
                 break;
             case '0':

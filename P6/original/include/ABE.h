@@ -57,6 +57,7 @@ bool ABE<Key>::insertar(const Key& k) {
     }
     return true;
     } else {
+        std::cout << "El elemento "<< k <<" ya existe" << std::endl;
         return false;
     }
 }

@@ -112,7 +112,8 @@ void Options::RunSimulation() {
     }
   } else if (this->initsystem == "random") {
       for (int i = 0; i < this->quantity; ++i){
-        arbol->insertar(std::rand());
+        NIF nif;
+        arbol->insertar(nif);
       }
   } else if (this->initsystem == "file") {
     std::ifstream file(this->filename);

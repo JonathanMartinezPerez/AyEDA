@@ -81,11 +81,6 @@ Options::Options(int argc, char* argv[]) {
     Usage();
     throw std::invalid_argument("Falta el argumento obligatorio para la opción -init file");
   }
-  // Impresión de los argumentos guardados (opcional)
-  std::cout << "ab: " << this->ab << std::endl;
-  std::cout << "initsystem: " << this->initsystem << std::endl;
-  std::cout << "filename: " << this->filename << std::endl;
-  std::cout << "quantity: " << this->quantity << std::endl;
 }
 
 
@@ -102,14 +97,7 @@ void Options::RunSimulation() {
   }
 
   if (this->initsystem == "manual") {
-    std::string input;
-    while (input != "q") {
-      std::cout << "Introduce un número NIF o q para salir: ";
-      std::cin >> input;
-      if (input != "q") {
-        arbol->insertar(std::stoi(input));
-      }
-    }
+    std::cout << "Elegiste la opcion manual\n";
   } else if (this->initsystem == "random") {
       for (int i = 0; i < this->quantity; ++i){
         NIF nif;

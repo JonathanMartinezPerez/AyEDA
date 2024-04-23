@@ -13,37 +13,14 @@ public:
     ABE() : AB<Key>() {}
 
     virtual bool insertar(const Key& k) override;
-    bool equilibrio(void);
+    
     virtual bool buscar(const Key& k) const override;
 
 
 private:
     bool insertarRama(NodoB<Key>* nodo, const Key& k);
-    bool equilibrioRama(NodoB<Key>* nodo);
     bool buscarRama(NodoB<Key>* nodo, const Key& k) const;
 };
-
-template<typename Key>
-bool ABE<Key>::equilibrio(void) {
-    return equilibrioRama(this->raiz);
-}
-
-template<typename Key>
-bool ABE<Key>::equilibrioRama(NodoB<Key>* nodo) {
-    if(nodo == nullptr){return true;}
-
-    int eq = tamRama(nodo->getIzdo()) - tamRama(nodo->getDcho());
-
-    switch (eq){
-        case -1:
-        break;
-        case 0:
-        break;
-        case 1: 
-        return equilibrioRama(nodo->getIzdo()) && equilibrioRama(nodo->getDcho());
-        default: return false;
-    }
-}
 
 template<typename Key>
 bool ABE<Key>::insertar(const Key& k) {

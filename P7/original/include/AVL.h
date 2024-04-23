@@ -78,6 +78,7 @@ void AVL<Key>::insertarReBalanceaDerecha(NodoAVL<Key>* &nodo, bool& crece) {
 template <typename Key>
 bool AVL<Key>::insertar(const Key& k) {
   if (this->buscar(k))
+    std::cout << "entra" << std::endl;
    return false;
   else {
     NodoAVL<Key>* nuevo = new NodoAVL<Key>(k);

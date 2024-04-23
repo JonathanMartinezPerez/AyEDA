@@ -8,6 +8,7 @@
 template<typename Key>
 class NodoB {
 public:
+    NodoB() : izdo(nullptr), dcho(nullptr) {}
     NodoB(const Key& dato) : dato(dato), izdo(nullptr), dcho(nullptr) {}
 
     Key getDato() const { return dato; }

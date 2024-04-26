@@ -91,6 +91,8 @@ void Options::RunSimulation() {
     arbol = new ABB<NIF>;
   } else if (this->ab == "abe") {
     arbol = new ABE<NIF>;
+  } else if (this->ab == "avl") {
+    arbol = new AVL<NIF>;
   } else {
     Usage();
     throw std::invalid_argument("Opción desconocida");

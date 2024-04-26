@@ -16,12 +16,15 @@ public:
     void insertarReBalanceaIzquierda(NodoAVL<Key>* &nodo, bool& crece);
     void insertarReBalanceaDerecha  (NodoAVL<Key>* &nodo, bool& crece);
 
+
     bool equilibrio(void);
 
     void rotacionII(NodoAVL<Key>* &nodo);
     void rotacionID(NodoAVL<Key>* &nodo);
     void rotacionDI(NodoAVL<Key>* &nodo);
     void rotacionDD(NodoAVL<Key>* &nodo);
+    
+    virtual bool buscar(const Key& k) const override;
 
     NodoAVL<Key>*& getRaiz() { return raiz; }
     NodoAVL<Key>* getRaiz() const { return raiz; }
@@ -30,6 +33,8 @@ private:
     bool insertarRamaAVL(NodoAVL<Key>* nodo, const Key& k);
     bool equilibrioRama(NodoAVL<Key>* nodo);
     NodoAVL<Key>* raiz;
+    
+    bool buscarRama(NodoAVL<Key>* nodo, const Key& k) const;
     void mostrarPorNiveles2(std::ostream& os) const;
 };
 
@@ -80,6 +85,7 @@ void AVL<Key>::insertarReBalanceaDerecha(NodoAVL<Key>* &nodo, bool& crece) {
 template <typename Key>
 bool AVL<Key>::insertar(const Key& k) {
     if (this->buscar(k)){
+        std::cout << "El dato: " << k << " ya existe en el arbol" << std::endl;
         return false;
     } else {
         NodoAVL<Key>* nuevo = new NodoAVL<Key>(k);
@@ -204,6 +210,25 @@ void AVL<Key>::rotacionDI(NodoAVL<Key>* &nodo) {
     }
     nodo2->setBal(0);
     nodo = nodo2;
+}
+
+template<typename Key>
+bool AVL<Key>::buscar(const Key& k) const {
+    return buscarRama(this->raiz, k);
+}
+
+template<typename Key>
+bool AVL<Key>::buscarRama(NodoAVL<Key>* nodo, const Key& k) const {
+    if (nodo == nullptr) {
+        return false;
+    }
+    if (k == nodo->getDato()) {
+        return true;
+    }
+    if (k < nodo->getDato()) {
+        return buscarRama(nodo->getIzdo(), k);
+    }
+    return buscarRama(nodo->getDcho(), k);
 }
 
 template<typename Key>

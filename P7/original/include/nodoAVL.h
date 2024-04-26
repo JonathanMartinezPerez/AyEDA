@@ -1,3 +1,5 @@
+//Autor: Jonathan Martínez Pérez
+//Fichero: nodoAVL.h
 #pragma once
 
 #include "nodoB.h"

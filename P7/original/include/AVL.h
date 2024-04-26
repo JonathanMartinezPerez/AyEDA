@@ -1,15 +1,19 @@
+//Autor: Jonathan Martínez Pérez
+//Fichero: AVL.h
 #pragma once
 
 #include "AB.h"
 #include "ABB.h"
 #include "nodoAVL.h"
 
+// Variable global para activar el modo traza
 extern bool wantTrace;
 
 inline void modifyTrace() {
     wantTrace = true;
 }
 
+// Clase AVL hereda de ABB
 template<typename Key>
 class AVL : public ABB<Key>{
 public:
@@ -21,9 +25,6 @@ public:
     void insertarBalanceado(NodoAVL<Key>* &nodo, NodoAVL<Key>* &nuevo, bool& crece);
     void insertarReBalanceaIzquierda(NodoAVL<Key>* &nodo, bool& crece);
     void insertarReBalanceaDerecha  (NodoAVL<Key>* &nodo, bool& crece);
-
-
-    bool equilibrio(void);
 
     void rotacionII(NodoAVL<Key>* &nodo);
     void rotacionID(NodoAVL<Key>* &nodo);
@@ -37,13 +38,13 @@ public:
 
 private:
     bool insertarRamaAVL(NodoAVL<Key>* nodo, const Key& k);
-    bool equilibrioRama(NodoAVL<Key>* nodo);
     NodoAVL<Key>* raiz;
     
     bool buscarRama(NodoAVL<Key>* nodo, const Key& k) const;
     void mostrarPorNiveles2(std::ostream& os) const;
 };
 
+// Implementación de los métodos de la clase AVL
 template <typename Key>
 void AVL<Key>::insertarReBalanceaIzquierda(NodoAVL<Key>* &nodo, bool& crece) {
     switch (nodo->getBal()) {
@@ -88,6 +89,7 @@ void AVL<Key>::insertarReBalanceaDerecha(NodoAVL<Key>* &nodo, bool& crece) {
     }
 }
 
+//Metodo para insertar un dato en el arbol
 template <typename Key>
 bool AVL<Key>::insertar(const Key& k) {
     if (this->buscar(k)){
@@ -103,6 +105,7 @@ bool AVL<Key>::insertar(const Key& k) {
     }
 }
 
+//Metodo para insertar un dato en el arbol usado en el insertar principal
 template <typename Key>
 void AVL<Key>::insertarBalanceado(NodoAVL<Key>* &nodo, NodoAVL<Key>* &nuevo, bool& crece) {
     if (nodo == nullptr) {
@@ -119,27 +122,7 @@ void AVL<Key>::insertarBalanceado(NodoAVL<Key>* &nodo, NodoAVL<Key>* &nuevo, boo
     }
 }
 
-template<typename Key>
-bool AVL<Key>::equilibrio(void) {
-    return equilibrioRama(this->raiz);
-}
-
-template<typename Key>
-bool AVL<Key>::equilibrioRama(NodoAVL<Key>* nodo) {
-    if(nodo == nullptr){return true;}
-
-    int eq = this->tamRama(nodo->getIzdo()) - this->tamRama(nodo->getDcho());
-
-    switch (eq){
-        case -1:
-        case 0:
-        case 1:
-            return equilibrioRama(nodo->getIzdo()) && equilibrioRama(nodo->getDcho());
-        default:
-            return false;
-    }
-}
-
+//Rotacion Izquierda-Izquierda
 template <typename Key>
 void AVL<Key>::rotacionII(NodoAVL<Key>* &nodo) {
     NodoAVL<Key>* nodo1 = nodo->getIzdo();
@@ -156,6 +139,7 @@ void AVL<Key>::rotacionII(NodoAVL<Key>* &nodo) {
     nodo = nodo1;
 }
 
+//Rotacion Derecha-Derecha
 template <typename Key>
 void AVL<Key>::rotacionDD(NodoAVL<Key>* &nodo) {
     NodoAVL<Key>* nodo1 = nodo->getDcho();
@@ -172,6 +156,7 @@ void AVL<Key>::rotacionDD(NodoAVL<Key>* &nodo) {
     nodo = nodo1;
 }
 
+//Rotacion Izquierda-Derecha
 template <typename Key>
 void AVL<Key>::rotacionID(NodoAVL<Key>* &nodo) {
     NodoAVL<Key>* nodo1 = nodo->getIzdo();
@@ -195,6 +180,7 @@ void AVL<Key>::rotacionID(NodoAVL<Key>* &nodo) {
     nodo = nodo2;
 }
 
+//Rotacion Derecha-Izquierda
 template <typename Key>
 void AVL<Key>::rotacionDI(NodoAVL<Key>* &nodo) {
     NodoAVL<Key>* nodo1 = nodo->getDcho();
@@ -218,6 +204,7 @@ void AVL<Key>::rotacionDI(NodoAVL<Key>* &nodo) {
     nodo = nodo2;
 }
 
+//Metodo para buscar un dato en el arbol
 template<typename Key>
 bool AVL<Key>::buscar(const Key& k) const {
     return buscarRama(this->raiz, k);
@@ -237,6 +224,7 @@ bool AVL<Key>::buscarRama(NodoAVL<Key>* nodo, const Key& k) const {
     return buscarRama(nodo->getDcho(), k);
 }
 
+//Metodo para mostrar el arbol por niveles con traza
 template<typename Key>
 void AVL<Key>::mostrarPorNiveles2(std::ostream& os) const {
   std::queue<std::pair<NodoAVL<Key>*,int>> Q;

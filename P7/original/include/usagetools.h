@@ -13,6 +13,7 @@
 #include "ABE.h"
 #include "AVL.h"
 
+
 // Clase para parsear los argumentos de entrada y ejecutar la simulación
 class Options {
 public:
@@ -24,10 +25,12 @@ private:
     std::string initsystem;
     std::string filename;
     std::string ab;
+    std::string trace;
     int quantity;
     bool hasQuantity = false;
     bool hasAb = false;
     bool hasInitSystem = false;
     bool hasFile = false;
+    bool hasTrace = false;
     
 };

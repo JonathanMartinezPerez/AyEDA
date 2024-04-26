@@ -7,6 +7,8 @@
 
 #include "usagetools.h"
 
+bool wantTrace = false;
+
 // Constructor de la clase Options para parsear los args
 Options::Options(int argc, char* argv[]) {
   // Verificación de la cantidad mínima de argumentos
@@ -66,6 +68,20 @@ Options::Options(int argc, char* argv[]) {
         Usage();
         throw std::invalid_argument("Falta el argumento para la opción -init");
       }
+    } else if (arg == "-trace") {
+      if (i + 1 < argc) {
+        this->trace = argv[i + 1];
+        ++i;
+      }
+      if (this->trace == "yes") {
+        modifyTrace();
+        hasTrace = true;
+      } else if (this->trace == "no") {
+        hasTrace = true;
+      } else {
+        Usage();
+        throw std::invalid_argument("Opción desconocida");
+      }
     } else {
       Usage();
       throw std::invalid_argument("Opción desconocida");
@@ -80,6 +96,11 @@ Options::Options(int argc, char* argv[]) {
   if (this->initsystem == "file" && !hasFile) {
     Usage();
     throw std::invalid_argument("Falta el argumento obligatorio para la opción -init file");
+  }
+
+  if (this->ab == "avl" && !hasTrace) {
+    Usage();
+    throw std::invalid_argument("Falta la opcion de trace para avl");
   }
 }
 
@@ -121,7 +142,7 @@ void Options::RunSimulation() {
           count++;
       }
     if (count >= this->quantity) {
-        break;  // Stop reading if we have reached the desired quantity
+        break; 
     }
 }
     file.close();

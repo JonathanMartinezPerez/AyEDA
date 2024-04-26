@@ -4,6 +4,12 @@
 #include "ABB.h"
 #include "nodoAVL.h"
 
+extern bool wantTrace;
+
+inline void modifyTrace() {
+    wantTrace = true;
+}
+
 template<typename Key>
 class AVL : public ABB<Key>{
 public:
@@ -254,7 +260,11 @@ void AVL<Key>::mostrarPorNiveles2(std::ostream& os) const {
     }
     //Mostramos el valor del nodo
     if (nodo != nullptr) {
-      os << "[" << nodo->getDato() << "]";
+      os << "[" << nodo->getDato();
+      if (wantTrace){
+        os << " (" << nodo->getBal() << ")";
+      }
+      os << "]";
       Q.push(std::make_pair(nodo->getIzdo(),nivel + 1));
       Q.push(std::make_pair(nodo->getDcho(),nivel + 1));
     } else {

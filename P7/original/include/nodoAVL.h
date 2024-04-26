@@ -15,8 +15,10 @@ public:
     Key getDato() const { return dato; }
     NodoAVL<Key>* getIzdo() const { return izdo; } 
     NodoAVL<Key>* getDcho() const { return dcho; }
+
     void setDcho(NodoAVL<Key>* nodo) { dcho = nodo; }
     void setIzdo(NodoAVL<Key>* nodo) { izdo = nodo; }
+    
     int& getBal() { return bal; }
     void setBal(int bal) { this->bal = bal; }
 

@@ -7,8 +7,6 @@
 #include <utility>
 #include "nodoB.h"
 
-template<typename Key>
-class AVL;
 
 // Clase abstracta AB
 template<typename Key>
@@ -25,8 +23,6 @@ public:
     void setRaiz(NodoB<Key>* nodo) { raiz = nodo; }
 
     virtual void inorden() const;
-
-    friend class AVL<Key>;
 
 protected:
     NodoB<Key>* raiz;

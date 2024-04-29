@@ -169,7 +169,6 @@ void Options::Menu(AB<NIF>* arbol) const {
         std::cout << "[1] Insertar clave\n";
         std::cout << "[2] Buscar clave\n";
         std::cout << "[3] Mostrar arbol inorden\n";
-        std::cout << "[4] Insertar ramdom\n";
 
         std::cout << "Seleccione una opción: ";
         std::cin >> option;

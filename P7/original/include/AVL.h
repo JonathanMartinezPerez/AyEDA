@@ -100,6 +100,7 @@ bool AVL<Key>::insertar(const Key& k) {
         nuevo->setBal(0);
         bool crece = false;
         insertarBalanceado(this->getRaiz(), nuevo, crece);
+        std::cout << "Dato insertado: " << k << std::endl;
         mostrarPorNiveles2(std::cout);
         return true;
     }

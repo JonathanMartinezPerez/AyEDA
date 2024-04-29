@@ -128,10 +128,10 @@ void Options::RunSimulation() {
       }
       //si el arbol es avl
       if (this->ab == "abb") {
-        std::cout << "acc" << ABB<NIF>::getAcc() << std::endl;
+        std::cout << "acc: " << ABB<NIF>::getAcc() << std::endl;
       }
       if (this->ab == "avl") {
-        std::cout << "acc" << AVL<NIF>::getAcc() << std::endl;
+        std::cout << "acc: " << AVL<NIF>::getAcc() << std::endl;
       }
   } else if (this->initsystem == "file") {
     std::ifstream file(this->filename);
